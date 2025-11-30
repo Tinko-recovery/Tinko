@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Profile & Settings — Tinko</title>
+    <h2 class="text-xl font-bold text-red-500 mb-2 flex items-center gap-2"><i class="fas fa-exclamation-triangle"></i>
+        Danger Zone</h2>
+    <p class="text-slate-400 mb-6 text-sm">Permanently delete your account and all data. This action cannot be
+        undone.</p>
+
+    <button onclick="confirmDelete()"
+        class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white font-bold py-2 px-6 rounded-lg transition">
+        Delete Account
+    </button>
+    </section>
+
+    </main>
+
+    <script>
+        const API_BASE = (() => {
+            const h = window.location.hostname;
+            if (!h || h === 'localhost' || h === '127.0.0.1') return "http://127.0.0.1:8000";
+            return 'https://tinko-clean-backend.onrender.com';
+        })();
+
+        const GATEWAYS = ["Razorpay", "Stripe", "Cashfree", "PayU", "PhonePe", "Paytm", "CCAvenue", "Juspay", "Custom Gateway (Not listed here?)"];
+        const selectedGateways = new Set();
+        let currentProfile = {};
+
+        // Load current profile
+        async function loadProfile() {
+            const token = localStorage.getItem("tinko_access_token");
+            if (!token) return window.location.href = "../index.html";
+
+            try {
+                const res = await fetch(`${API_BASE}/v1/customer/profile`, {
+                    headers: { "Authorization": "Bearer " + token }
+                });
+                if (res.ok) {
+                    const profile = await res.json();
+                    currentProfile = profile;
+                    renderProfileDetails(profile);
+
+                    // Pre-select gateways if available (mock logic for now as API might not return list yet)
+                    // In real implementation: profile.payment_gateways.forEach(gw => selectedGateways.add(gw));
+
+                    renderGateways();
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function renderProfileDetails(p) {
+            // Since the GET /profile endpoint currently returns a limited set (CustomerProfileResponse),
+            // we might need to update the backend to return full Organization details.
+            // For now, we'll display what we have and placeholders.
+
+            // Note: The current GET /profile returns: email, full_name, mobile, org_id, onboarding_complete
+            // It DOES NOT return the full organization details yet. 
+            // I will assume for this demo that we might need to fetch organization details separately 
+            // or update the backend. For now, I'll show the user's name as business name if org name is missing.
+
+            document.getElementById("dispBusinessName").textContent = p.full_name || "My Business";
+            // Other fields would be populated if the API returned them.
+        }
+
+        function renderGateways() {
+            const container = document.getElementById("gatewayContainer");
+            container.innerHTML = "";
+            GATEWAYS.forEach(gw => {
+                const btn = document.createElement("button");
+                btn.className = "pill-btn " + (selectedGateways.has(gw) ? "active" : "");
+                btn.textContent = gw;
+                btn.onclick = () => {
+                    if (selectedGateways.has(gw)) {
+                        selectedGateways.delete(gw);
+                        btn.classList.remove("active");
+                    } else {
+                        selectedGateways.add(gw);
+                        btn.classList.add("active");
+                    }
+                    renderGatewayConfig();
+                };
+                container.appendChild(btn);
+            });
+            renderGatewayConfig();
+        }
+
+        function renderGatewayConfig() {
+            const container = document.getElementById("gatewayConfigContainer");
+            container.innerHTML = "";
+
+            if (selectedGateways.size === 0) {
+                container.innerHTML = '<p class="text-sm text-slate-500 italic">Select gateways above to configure.</p>';
+                return;
+            }
+
+            selectedGateways.forEach(gw => {
+                const div = document.createElement("div");
+                div.className = "bg-slate-800/50 p-4 rounded-lg border border-slate-700";
+
+                if (gw === "Custom Gateway (Not listed here?)") {
+                    div.innerHTML = `
+            <h3 class="font-bold text-white mb-3 flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-gray-500"></div> Custom Gateway</h3>
+            <div>
+              <label class="block text-xs text-slate-400 mb-1">Gateway Name & Details</label>
+              <textarea class="input-field text-sm" rows="3" placeholder="e.g. Worldline."></textarea>
+            </div>
+          `;
+                } else {
+                    div.innerHTML = `
+            <h3 class="font-bold text-white mb-3 flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-green-500"></div> ${gw} Configuration</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Key ID / API Key</label>
+                <input type="password" class="input-field text-sm" placeholder="${gw} Key ID">
+              </div>
+              <div>
+                <label class="block text-xs text-slate-400 mb-1">Key Secret</label>
+                <input type="password" class="input-field text-sm" placeholder="${gw} Secret">
+              </div>
+            </div>
+          `;
+                }
+                container.appendChild(div);
+            });
+        }
+
+        async function saveSettings() {
+            const btn = document.getElementById("saveBtn");
+            btn.textContent = "Saving...";
+            btn.disabled = true;
+
+            // Simulate save
+            setTimeout(() => {
+                alert("Keys updated successfully!");
+                btn.textContent = "Update Keys";
+                btn.disabled = false;
+            }, 1000);
+        }
+
+        async function confirmDelete() {
+            if (!confirm("Are you sure you want to delete your account? This action cannot be undone.")) return;
+
+            const token = localStorage.getItem("tinko_access_token");
+            try {
+                const res = await fetch(`${API_BASE}/v1/customer/profile`, {
+                    method: "DELETE",
+                    headers: { "Authorization": "Bearer " + token }
+                });
+
+                if (res.ok) {
+                    alert("Account deleted.");
+                    localStorage.removeItem("tinko_access_token");
+                    window.location.href = "../index.html";
+                } else {
+                    alert("Failed to delete account.");
+                }
+            } catch (e) {
+                alert("Network error.");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadProfile);
+    </script>
+    </body>
+
+</html>

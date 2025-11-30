@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gateway Integration Guide — Tinko</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .card {
+            background: #1e293b;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body class="p-6 md:p-12 max-w-4xl mx-auto">
+
+    <div class="mb-10 text-center">
+        <h1 class="text-3xl font-bold text-white mb-2">How to Find Your Payment Gateway Details</h1>
+        <p class="text-slate-400">Simple guide to fetching the credentials Tinko needs to recover your revenue.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- Razorpay -->
+        <div class="card">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-blue-500"></div> Razorpay
+            </h2>
+            <div class="space-y-4 text-sm">
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">What you need</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="badge">API Key ID</span>
+                        <span class="badge">API Key Secret</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">Where to find it</p>
+                    <ol class="list-decimal list-inside space-y-1 text-slate-300">
+                        <li>Go to <span class="highlight">Dashboard → Settings → API Keys</span></li>
+                        <li>Click <strong>Generate Live Key</strong></li>
+                        <li>Copy Key ID and Key Secret</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stripe -->
+        <div class="card">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-indigo-500"></div> Stripe
+            </h2>
+            <div class="space-y-4 text-sm">
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">What you need</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="badge">Secret Key</span>
+                        <span class="badge">Webhook Signing Secret</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">Where to find it</p>
+                    <ol class="list-decimal list-inside space-y-1 text-slate-300">
+                        <li>Go to <span class="highlight">Dashboard → Developers → API Keys</span></li>
+                        <li>Copy <strong>Secret Key (SK Live)</strong></li>
+                        <li>For Webhook: Developers → Webhooks → Reveal Signing Secret</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cashfree -->
+        <div class="card">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-orange-500"></div> Cashfree
+            </h2>
+            <div class="space-y-4 text-sm">
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">What you need</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="badge">App ID</span>
+                        <span class="badge">Secret Key</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">Where to find it</p>
+                    <ol class="list-decimal list-inside space-y-1 text-slate-300">
+                        <li>Log in to Cashfree Dashboard</li>
+                        <li>Go to <span class="highlight">Developers → Credentials</span></li>
+                        <li>Copy App ID and Secret Key</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- PayU -->
+        <div class="card">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-green-600"></div> PayU
+            </h2>
+            <div class="space-y-4 text-sm">
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">What you need</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="badge">Merchant Key</span>
+                        <span class="badge">Merchant Salt</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">Where to find it</p>
+                    <ol class="list-decimal list-inside space-y-1 text-slate-300">
+                        <li>Go to <span class="highlight">Dashboard → Profile → Integration Details</span></li>
+                        <li>Copy Merchant Key + Salt</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- PhonePe -->
+        <div class="card">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-purple-600"></div> PhonePe
+            </h2>
+            <div class="space-y-4 text-sm">
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">What you need</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="badge">Merchant ID</span>
+                        <span class="badge">Salt Key</span>
+                        <span class="badge">Salt Index</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">Where to find it</p>
+                    <ol class="list-decimal list-inside space-y-1 text-slate-300">
+                        <li>Go to <span class="highlight">PhonePe PG dashboard → API Keys Section</span></li>
+                        <li>(Or check your email from PhonePe activation)</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paytm -->
+        <div class="card">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-blue-800"></div> Paytm
+            </h2>
+            <div class="space-y-4 text-sm">
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">What you need</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="badge">Merchant ID (MID)</span>
+                        <span class="badge">Merchant Key</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">Where to find it</p>
+                    <ol class="list-decimal list-inside space-y-1 text-slate-300">
+                        <li>Go to <span class="highlight">Dashboard → Developer Settings</span></li>
+                        <li>Copy MID and Merchant Key</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- CCAvenue -->
+        <div class="card">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-gray-500"></div> CCAvenue
+            </h2>
+            <div class="space-y-4 text-sm">
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">What you need</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="badge">Merchant ID</span>
+                        <span class="badge">Access Code</span>
+                        <span class="badge">Working Key</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">Where to find it</p>
+                    <ol class="list-decimal list-inside space-y-1 text-slate-300">
+                        <li>Go to <span class="highlight">Dashboard → Settings → API Keys</span></li>
+                        <li>Copy Access Code + Working Key</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Juspay -->
+        <div class="card">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-blue-400"></div> Juspay
+            </h2>
+            <div class="space-y-4 text-sm">
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">What you need</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="badge">API Key</span>
+                        <span class="badge">Merchant ID</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-slate-400 mb-1 uppercase text-xs font-bold">Where to find it</p>
+                    <ol class="list-decimal list-inside space-y-1 text-slate-300">
+                        <li>Go to <span class="highlight">Login → Developers Section</span></li>
+                        <li>Copy API Key</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

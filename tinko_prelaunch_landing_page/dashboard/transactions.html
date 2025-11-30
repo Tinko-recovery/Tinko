@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Transactions — Tinko</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "tinko-blue": "#0044CC",
+            "tinko-dark": "#0F172A",
+            "tinko-muted": "#64748B"
+          },
+          fontFamily: {
+            jakarta: ['"Plus Jakarta Sans"', "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen p-4 md:p-8">
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto mb-8">
+    <div class="bg-white border border-slate-200 rounded-xl px-6 py-4 flex items-center justify-between shadow-sm">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold text-xl">T
+        </div>
+        <span class="font-extrabold tracking-tight text-tinko-blue text-xl">Tinko.</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="../index.html"
+          class="text-slate-500 hover:text-tinko-blue text-sm font-medium flex items-center gap-2 transition">
+          <i class="ph-bold ph-house"></i> Home
+        </a>
+        <a href="dashboard-preview.html"
+          class="text-slate-500 hover:text-tinko-blue text-sm font-medium flex items-center gap-2 transition">
+          <i class="ph-bold ph-squares-four"></i> Dashboard
+        </a>
+        <button onclick="logout()"
+          class="px-5 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-sm font-semibold text-slate-700 transition">
+          Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="max-w-7xl mx-auto">
+    <div class="bg-white border border-slate-200 rounded-xl p-6 md:p-8 shadow-sm">
+      <h2 class="text-xl font-bold mb-6 text-slate-900">All Transactions</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
+            <tr>
+              <th class="p-4">Ref</th>
+              <th class="p-4">Amount</th>
+              <th class="p-4">Status</th>
+              <th class="p-4">Time</th>
+            </tr>
+          </thead>
+          <tbody id="txBody" class="divide-y divide-slate-100">
+            <!-- Rows will be injected here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="auth-guard.js"></script>
+  <script src="logout.js"></script>
+  <script>
+    const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000' : 'https://api.tinko.in';
+    const token = localStorage.getItem("tinko_access_token");
+
+    async function loadTx() {
+      try {
+        const res = await fetch(`${API}/v1/customer/transactions`, {
+          headers: { Authorization: "Bearer " + token }
+        });
+        if (res.ok) {
+          const tx = await res.json();
+          render(tx);
+        } else {
+          console.error("Failed to load transactions");
+          render([]); // Render empty
+        }
+      } catch (e) {
+        console.error(e);
+        render([]);
+      }
+    }
+
+    function render(list) {
+      const tbody = document.getElementById("txBody");
+      tbody.innerHTML = "";
+
+      if (!list || list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-500">No transactions found</td></tr>';
+        return;
+      }
+
+      list.forEach(t => {
+        const row = document.createElement("tr");
+        row.className = "hover:bg-slate-50 transition cursor-pointer";
+
+        // Status styling
+        let statusClass = "text-slate-600 bg-slate-100";
+        if (t.status === 'success') statusClass = "text-emerald-700 bg-emerald-100";
+        if (t.status === 'failed') statusClass = "text-red-700 bg-red-100";
+
+        row.innerHTML = `
+                    <td class="p-4 font-mono text-slate-600">${t.transaction_ref}</td>
+                    <td class="p-4 font-bold text-slate-900">₹${t.amount}</td>
+                    <td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold uppercase ${statusClass}">${t.status}</span></td>
+                    <td class="p-4 text-slate-500">${new Date(t.created_at).toLocaleString()}</td>
+                `;
+        tbody.appendChild(row);
+      });
+    }
+
+    loadTx();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+import os
+from dotenv import load_dotenv
+
+def load_environment():
+    """
+    Loads .env file from one of the standard locations.
+    Ensures correct behavior on Windows + uvicorn reload.
+    """
+    search_paths = [
+        os.path.join(os.getcwd(), ".env"),  # project root when running uvicorn
+        os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.env")),
+    ]
+
+    for path in search_paths:
+        if os.path.isfile(path):
+            load_dotenv(path, override=True)
+            print(f"🔧 Loaded .env from: {path}")
+            return
+
+    print("❌ .env not found in expected locations.")

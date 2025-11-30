@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login — Tinko</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "tinko-blue": "#0044CC",
+                        "tinko-dark": "#0F172A",
+                        "tinko-card": "#1e293b"
+                    },
+                    fontFamily: {
+                        jakarta: ['"Plus Jakarta Sans"', "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            background: #0f172a;
+            color: white;
+        }
+
+        .input-field {
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            width: 100%;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: #0044CC;
+        }
+    </style>
+</head>
+
+<body class="h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
+        <div class="absolute top-4 left-4">
+            <a href="../index.html" class="text-slate-400 hover:text-white transition flex items-center gap-1 text-sm">
+                <i class="ph-bold ph-arrow-left"></i> Home
+            </a>
+        </div>
+        <div class="text-center mb-8">
+            <div
+                class="inline-flex items-center justify-center w-12 h-12 bg-tinko-blue rounded-xl text-white font-bold text-2xl mb-4">
+                T</div>
+            <h1 class="text-2xl font-bold">Welcome back</h1>
+            <p class="text-slate-400 text-sm mt-2">Enter your email to access your dashboard</p>
+        </div>
+
+        <div id="step-email">
+            <form id="loginForm" class="space-y-4" onsubmit="handleLogin(event)">
+                <div>
+                    <label class="block text-sm text-slate-400 mb-2">Email Address</label>
+                    <input type="email" id="email" class="input-field" placeholder="name@company.com" required>
+                </div>
+                <button type="submit" id="sendBtn"
+                    class="w-full bg-tinko-blue hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    Send Login Link <i class="ph-bold ph-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+
+        <div id="step-otp" class="hidden">
+            <form id="otpForm" class="space-y-4" onsubmit="handleVerify(event)">
+                <div class="text-center mb-4">
+                    <p class="text-sm text-slate-300">We sent a code to <span id="displayEmail"
+                            class="font-bold text-white"></span></p>
+                </div>
+                <div>
+                    <label class="block text-sm text-slate-400 mb-2">Enter OTP</label>
+                    <input type="text" id="otp" class="input-field text-center text-2xl tracking-widest"
+                        placeholder="000000" maxlength="6" required>
+                </div>
+                <button type="submit" id="verifyBtn"
+                    class="w-full bg-tinko-blue hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    Verify & Login <i class="ph-bold ph-check"></i>
+                </button>
+                <button type="button" onclick="resetForm()"
+                    class="w-full text-sm text-slate-500 hover:text-slate-300 mt-4">
+                    Use a different email
+                </button>
+            </form>
+        </div>
+
+        <div class="mt-8 text-center border-t border-slate-800 pt-6">
+            <p id="loginFooter" class="text-xs text-slate-500">Don't have an account? <button
+                    onclick="toggleMode('signup')" class="text-tinko-blue hover:underline font-semibold">Sign
+                    up</button></p>
+            <p id="signupFooter" class="text-xs text-slate-500 hidden">Already have an account? <button
+                    onclick="toggleMode('login')" class="text-tinko-blue hover:underline font-semibold">Login</button>
+            </p>
+        </div>
+    </div>
+
+    <!-- Security Badges -->
+    <div class="fixed bottom-6 text-center w-full">
+        <div class="inline-flex items-center gap-6 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+            <div class="flex items-center gap-1 text-xs text-slate-400 font-semibold">
+                <i class="ph-fill ph-shield-check text-lg"></i> SOC2 Compliant
+            </div>
+            <div class="flex items-center gap-1 text-xs text-slate-400 font-semibold">
+                <i class="ph-fill ph-lock-key text-lg"></i> 256-bit SSL
+            </div>
+            <div class="flex items-center gap-1 text-xs text-slate-400 font-semibold">
+                <i class="ph-fill ph-check-circle text-lg"></i> PCI-DSS Level 1
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000' : 'https://api.tinko.in';
+
+        let currentEmail = "";
+        let currentMode = "login"; // 'login' or 'signup'
+
+        function toggleMode(mode) {
+            currentMode = mode;
+            const title = document.querySelector('h1');
+            const subtitle = document.querySelector('p.text-slate-400');
+            const btn = document.getElementById('sendBtn');
+            const loginFooter = document.getElementById('loginFooter');
+            const signupFooter = document.getElementById('signupFooter');
+
+            if (mode === 'signup') {
+                title.innerText = "Create your account";
+                subtitle.innerText = "Enter your email to get started";
+                btn.innerHTML = 'Create Account <i class="ph-bold ph-arrow-right"></i>';
+                loginFooter.classList.add('hidden');
+                signupFooter.classList.remove('hidden');
+            } else {
+                title.innerText = "Welcome back";
+                subtitle.innerText = "Enter your email to access your dashboard";
+                btn.innerHTML = 'Send Login Link <i class="ph-bold ph-arrow-right"></i>';
+                loginFooter.classList.remove('hidden');
+                signupFooter.classList.add('hidden');
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const btn = document.getElementById('sendBtn');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Sending...';
+
+            try {
+                // Use currentMode as intent
+                let response = await fetch(`${API_BASE}/v1/auth/email/send-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, intent: currentMode })
+                });
+
+                if (response.status === 404 && currentMode === 'login') {
+                    // User not found in login mode, suggest signup
+                    if (confirm("Account not found. Would you like to create a new account?")) {
+                        toggleMode('signup'); // Switch UI to signup
+                        response = await fetch(`${API_BASE}/v1/auth/email/send-otp`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email: email, intent: 'signup' })
+                        });
+                    } else {
+                        throw new Error("Login cancelled by user.");
+                    }
+                } else if (response.status === 409 && currentMode === 'signup') {
+                    // User exists in signup mode, suggest login
+                    if (confirm("Account already exists. Would you like to login instead?")) {
+                        toggleMode('login'); // Switch UI to login
+                        response = await fetch(`${API_BASE}/v1/auth/email/send-otp`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email: email, intent: 'login' })
+                        });
+                    } else {
+                        throw new Error("Signup cancelled by user.");
+                    }
+                }
+
+                if (response.ok) {
+                    currentEmail = email;
+                    document.getElementById('displayEmail').innerText = email;
+                    document.getElementById('step-email').classList.add('hidden');
+                    document.getElementById('step-otp').classList.remove('hidden');
+                } else {
+                    const data = await response.json();
+                    alert(data.detail || "Failed to send OTP. Please try again.");
+                }
+            } catch (error) {
+                console.error("Auth error:", error);
+                if (error.message !== "Login cancelled by user." && error.message !== "Signup cancelled by user.") {
+                    alert(error.message || "Network error. Please check your connection.");
+                }
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = currentMode === 'signup' ? 'Create Account <i class="ph-bold ph-arrow-right"></i>' : 'Send Login Link <i class="ph-bold ph-arrow-right"></i>';
+            }
+        }
+
+        async function handleVerify(e) {
+            e.preventDefault();
+            const otp = document.getElementById('otp').value;
+            const btn = document.getElementById('verifyBtn');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Verifying...';
+
+            try {
+                const response = await fetch(`${API_BASE}/v1/auth/email/verify-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: currentEmail, otp: otp })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('tinko_access_token', data.access_token);
+
+                    if (data.new_user) {
+                        window.location.href = "onboarding.html";
+                    } else {
+                        window.location.href = "dashboard-preview.html";
+                    }
+                } else {
+                    const data = await response.json();
+                    alert(data.detail || "Invalid OTP. Please try again.");
+                }
+            } catch (error) {
+                console.error("Verify error:", error);
+                alert("Network error. Please check your connection.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Verify & Login <i class="ph-bold ph-check"></i>';
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('step-otp').classList.add('hidden');
+            document.getElementById('step-email').classList.remove('hidden');
+            document.getElementById('otp').value = '';
+        }
+
+        // Check for intent in URL on load
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const intent = urlParams.get('intent');
+            if (intent === 'signup') {
+                toggleMode('signup');
+            }
+        });
+    </script>
+</body>
+
+</html>

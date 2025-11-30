@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Complete Your Profile — Tinko</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Complete your Tinko profile to start recovering lost revenue.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "tinko-orange": "#DE6B06",
+                        "tinko-dark": "#0b1220",
+                        "tinko-muted": "#6b7280"
+                    },
+                    fontFamily: {
+                        jakarta: ['"Plus Jakarta Sans"', "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            background: linear-gradient(140deg, #0f172a, #1e293b, #0b1220);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- ONBOARDING CARD -->
+    <div class="w-full max-w-2xl">
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-block">
+                <div class="font-extrabold tracking-[0.20em] text-tinko-orange text-2xl mb-3">TINKO</div>
+                <p class="text-gray-300 text-sm">Complete your profile to get started</p>
+            </div>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl shadow-2xl p-8 md:p-10">
+
+            <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Welcome to Tinko! 👋</h1>
+            <p class="text-slate-400 mb-8">Tell us about your business so we can help you recover lost revenue.</p>
+
+            <form id="onboardingForm" class="space-y-6">
+
+                <!-- Business Name -->
+                <div>
+                    <label for="businessName" class="block text-sm font-semibold text-slate-300 mb-2">
+                        Business Name <span class="text-red-400">*</span>
+                    </label>
+                    <input id="businessName" type="text" required placeholder="e.g., Acme Store"
+                        class="w-full px-4 py-3 bg-slate-900/80 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-tinko-orange transition" />
+                </div>
+
+                <!-- Phone Number -->
+                <div>
+                    <label for="phone" class="block text-sm font-semibold text-slate-300 mb-2">
+                        Business Phone <span class="text-red-400">*</span>
+                    </label>
+                    <input id="phone" type="tel" required placeholder="+91 98765 43210"
+                        class="w-full px-4 py-3 bg-slate-900/80 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-tinko-orange transition" />
+                </div>
+
+                <!-- Payment Gateway -->
+                <div>
+                    <label for="gateway" class="block text-sm font-semibold text-slate-300 mb-2">
+                        Primary Payment Gateway <span class="text-red-400">*</span>
+                    </label>
+                    <select id="gateway" required
+                        class="w-full px-4 py-3 bg-slate-900/80 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-tinko-orange transition">
+                        <option value="">Select your gateway</option>
+                        <option value="razorpay">Razorpay</option>
+                        <option value="stripe">Stripe</option>
+                        <option value="cashfree">Cashfree</option>
+                        <option value="payu">PayU</option>
+                        <option value="phonepe">PhonePe</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Website URL -->
+                <div>
+                    <label for="website" class="block text-sm font-semibold text-slate-300 mb-2">
+                        Website URL <span class="text-slate-500 text-xs">(Optional)</span>
+                    </label>
+                    <input id="website" type="url" placeholder="https://yourstore.com"
+                        class="w-full px-4 py-3 bg-slate-900/80 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-tinko-orange transition" />
+                </div>
+
+                <!-- Monthly Transaction Volume -->
+                <div>
+                    <label for="volume" class="block text-sm font-semibold text-slate-300 mb-2">
+                        Estimated Monthly Transactions
+                    </label>
+                    <select id="volume"
+                        class="w-full px-4 py-3 bg-slate-900/80 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-tinko-orange transition">
+                        <option value="">Select range</option>
+                        <option value="0-100">0 - 100</option>
+                        <option value="100-500">100 - 500</option>
+                        <option value="500-1000">500 - 1,000</option>
+                        <option value="1000-5000">1,000 - 5,000</option>
+                        <option value="5000+">5,000+</option>
+                    </select>
+                </div>
+
+                <!-- Error Message -->
+                <p id="errorMessage" class="text-sm text-red-400 hidden"></p>
+
+                <!-- Success Message -->
+                <p id="successMessage" class="text-sm text-emerald-400 hidden"></p>
+
+                <!-- Submit Button -->
+                <button id="submitBtn" type="submit"
+                    class="w-full bg-tinko-orange hover:bg-orange-600 text-white font-semibold py-4 rounded-lg shadow-lg transition duration-200">
+                    Complete Setup
+                </button>
+
+            </form>
+
+            <p class="text-xs text-slate-500 text-center mt-6">
+                By continuing, you agree to our Terms of Service and Privacy Policy.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- PREVIEW MODE - NO AUTH GUARD -->
+    <script>
+        console.log("Preview mode - auth guard disabled");
+    </script>
+
+</body>
+
+</html>

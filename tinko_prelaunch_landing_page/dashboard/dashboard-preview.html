@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard — Tinko</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "tinko-blue": "#0044CC",
+                        "tinko-dark": "#0F172A",
+                        "tinko-muted": "#64748B"
+                    },
+                    fontFamily: {
+                        jakarta: ['"Plus Jakarta Sans"', "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen p-4 md:p-8">
+
+    <!-- Header -->
+    <header class="max-w-7xl mx-auto mb-8">
+        <div class="bg-white border border-slate-200 rounded-xl px-6 py-4 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-2">
+                <div
+                    class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    T</div>
+                <span class="font-extrabold tracking-tight text-tinko-blue text-xl">Tinko.</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="../index.html"
+                    class="text-slate-500 hover:text-tinko-blue text-sm font-medium flex items-center gap-2 transition">
+                    <i class="ph-bold ph-house"></i> Home
+                </a>
+                <a href="transactions.html"
+                    class="text-slate-500 hover:text-tinko-blue text-sm font-medium flex items-center gap-2 transition">
+                    <i class="ph-bold ph-list-dashes"></i> Transactions
+                </a>
+                <button id="logoutBtn" onclick="logout()"
+                    class="px-5 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-sm font-semibold text-slate-700 transition">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto">
+        <section class="bg-gradient-to-br from-tinko-blue to-blue-700 rounded-2xl p-8 shadow-xl text-white">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Welcome back ! 👋</h1>
+            <p class="text-white/90 text-lg" id="businessGreeting">Here's how Acme Store is performing with Tinko.</p>
+        </section>
+
+        <!-- Stats Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <!-- Total Revenue Recovered -->
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                <p class="text-slate-500 text-sm font-semibold mb-2">Total Revenue Recovered</p>
+                <p class="text-3xl font-bold text-emerald-600" id="totalRecovered">₹24,750</p>
+                <p class="text-xs text-slate-400 mt-2">Since you joined Tinko</p>
+            </div>
+            <!-- Failed Payments Detected -->
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                <p class="text-slate-500 text-sm font-semibold mb-2">Failed Payments</p>
+                <p class="text-3xl font-bold text-amber-500" id="totalFailed">127</p>
+                <p class="text-xs text-slate-400 mt-2">Detected by Tinko</p>
+            </div>
+            <!-- Recovery Rate -->
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                <p class="text-slate-500 text-sm font-semibold mb-2">Recovery Rate</p>
+                <p class="text-3xl font-bold text-blue-600" id="recoveryRate">68%</p>
+                <p class="text-xs text-slate-400 mt-2">Success percentage</p>
+            </div>
+        </section>
+
+        <!-- Gateway Health Widget -->
+        <section class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm mt-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2"><i
+                        class="ph-fill ph-activity text-tinko-blue"></i> Gateway Health Monitor</h2>
+                <div
+                    class="flex items-center gap-2 text-xs font-semibold bg-green-50 text-green-700 px-3 py-1 rounded-full border border-green-100">
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    All Systems Operational
+                </div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-between">
+                    <span class="text-sm font-medium text-slate-700">Razorpay</span>
+                    <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded">99.9%</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-between">
+                    <span class="text-sm font-medium text-slate-700">Stripe</span>
+                    <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded">100%</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-between">
+                    <span class="text-sm font-medium text-slate-700">Cashfree</span>
+                    <span class="text-xs font-bold text-yellow-600 bg-yellow-100 px-2 py-0.5 rounded">98.2%</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-between">
+                    <span class="text-sm font-medium text-slate-700">UPI</span>
+                    <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded">99.5%</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="bg-white border border-slate-200 rounded-xl p-6 md:p-8 shadow-sm mt-8">
+            <h2 class="text-xl font-bold mb-6 text-slate-900">Quick Actions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <a href="transactions.html"
+                    class="flex items-center justify-between p-5 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-200 transition group">
+                    <div>
+                        <h3 class="font-semibold mb-1 text-slate-900">View All Transactions</h3>
+                        <p class="text-sm text-slate-500">See your complete payment history</p>
+                    </div>
+                    <span class="text-2xl text-slate-400 group-hover:translate-x-1 transition">→</span>
+                </a>
+                <a href="#integration"
+                    class="flex items-center justify-between p-5 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-200 transition group">
+                    <div>
+                        <h3 class="font-semibold mb-1 text-slate-900">Integration Settings</h3>
+                        <p class="text-sm text-slate-500">Configure payment gateway</p>
+                    </div>
+                    <span class="text-2xl text-slate-400 group-hover:translate-x-1 transition">→</span>
+                </a>
+                <a href="#analytics"
+                    class="flex items-center justify-between p-5 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-200 transition group">
+                    <div>
+                        <h3 class="font-semibold mb-1 text-slate-900">Analytics & Reports</h3>
+                        <p class="text-sm text-slate-500">Deep dive into your metrics</p>
+                    </div>
+                    <span class="text-2xl text-slate-400 group-hover:translate-x-1 transition">→</span>
+                </a>
+                <a href="#support"
+                    class="flex items-center justify-between p-5 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-200 transition group">
+                    <div>
+                        <h3 class="font-semibold mb-1 text-slate-900">Get Support</h3>
+                        <p class="text-sm text-slate-500">Contact our team for help</p>
+                    </div>
+                    <span class="text-2xl text-slate-400 group-hover:translate-x-1 transition">→</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="bg-white border border-slate-200 rounded-xl p-6 md:p-8 shadow-sm mt-8">
+            <h2 class="text-xl font-bold mb-6 text-slate-900">Recent Activity</h2>
+            <div id="activityList" class="space-y-3">
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-100">
+                    <div>
+                        <p class="font-semibold text-sm text-slate-900">Payment Recovered</p>
+                        <p class="text-xs text-slate-500">Transaction #TXN_1234 • 2 hours ago</p>
+                    </div>
+                    <p class="text-emerald-600 font-bold">₹4,999</p>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-100">
+                    <div>
+                        <p class="font-semibold text-sm text-slate-900">Failed Payment Detected</p>
+                        <p class="text-xs text-slate-500">Transaction #TXN_1235 • 5 hours ago</p>
+                    </div>
+                    <p class="text-amber-500 font-bold">₹2,499</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="auth-guard.js"></script>
+    <script>
+        function logout() {
+            localStorage.removeItem('tinko_access_token');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>

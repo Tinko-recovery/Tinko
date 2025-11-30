@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tinko • Transaction Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    :root {
+      --orange: #de6b06;
+      --bg: #0b1220;
+      --card: #111827;
+      --text: #f9fafb;
+      --border: #1f2937;
+      --muted: #6b7280;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      font-family: system-ui;
+    }
+    .card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .btn {
+      background: var(--orange);
+      padding: 10px;
+      border-radius: 6px;
+      color: var(--bg);
+      text-decoration: none;
+    }
+    .logout {
+      background: #1f2937 !important;
+      color: var(--muted) !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <a class="btn" href="transactions.html">← Back to all</a>
+  <button class="btn logout" onclick="logout()">Logout</button>
+
+  <div class="card" id="details">
+    Loading...
+  </div>
+
+  <script src="auth-guard.js"></script>
+  <script src="logout.js"></script>
+
+  <script>
+    const API = "http://127.0.0.1:8000";
+    const token = localStorage.getItem("tinko_access_token");
+
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+
+    async function loadTransaction() {
+      const res = await fetch(`${API}/v1/customer/transactions/${ref}`, {
+        headers: { Authorization: "Bearer " + token }
+      });
+      const data = await res.json();
+
+      document.getElementById("details").innerHTML = `
+        <h2>Transaction ${ref}</h2><br>
+        <b>Amount:</b> ₹${data.amount}<br>
+        <b>Status:</b> ${data.status}<br>
+        <b>Created:</b> ${new Date(data.created_at).toLocaleString()}<br>
+      `;
+    }
+
+    loadTransaction();
+  </script>
+</body>
+</html>

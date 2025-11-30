@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Tinko</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        tinko: {
+                            blue: '#0044CC',
+                            dark: '#002a80',
+                            light: '#E6F0FF',
+                            text: '#0F172A',
+                            gray: '#64748B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-sans text-tinko-text antialiased bg-white">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex-shrink-0 flex items-center gap-2">
+                    <div
+                        class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                        T</div>
+                    <span class="font-bold text-2xl tracking-tight text-tinko-blue">Tinko.</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="flex items-center gap-8">
+                    <a href="index.html"
+                        class="text-sm font-medium text-gray-900 hover:text-tinko-blue transition flex items-center gap-2">
+                        <i class="ph-bold ph-house"></i> Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENT -->
+    <section class="pt-32 pb-20">
+        <div class="max-w-4xl mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-8">Privacy Policy</h1>
+            <div class="prose prose-blue max-w-none text-gray-600">
+                <p>Last updated: November 2025</p>
+                <p>At Tinko, we take your privacy seriously. This Privacy Policy explains how we collect, use,
+                    disclosure, and safeguard your information when you visit our website or use our services.</p>
+
+                <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">1. Information We Collect</h3>
+                <p>We collect information that you provide directly to us, such as when you create an account, update
+                    your profile, or communicate with us.</p>
+
+                <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">2. How We Use Your Information</h3>
+                <p>We use the information we collect to provide, maintain, and improve our services, to process your
+                    transactions, and to communicate with you.</p>
+
+                <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">3. Data Security</h3>
+                <p>We implement appropriate technical and organizational measures to protect the security of your
+                    personal information.</p>
+
+                <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">4. Contact Us</h3>
+                <p>If you have any questions about this Privacy Policy, please contact us at support@tinko.in.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div
+                            class="w-6 h-6 bg-tinko-blue rounded flex items-center justify-center text-white font-bold text-sm">
+                            T</div>
+                        <span class="font-bold text-xl tracking-tight">Tinko.</span>
+                    </div>
+                    <p class="text-gray-400 max-w-xs text-sm">The invisible safety net for your digital business.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-sm uppercase tracking-wider text-gray-500">Legal</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="hover:text-white transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-800 text-gray-500 text-sm">
+                &copy; 2025 Blocks & Loops Technologies Pvt Ltd. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

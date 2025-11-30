@@ -1,0 +1,8 @@
+[build]
+  publish = "."
+
+# Redirect rules for clean URLs
+[[redirects]]
+  from = "/thank-you.html"
+  to = "/thank-you"
+  status = 200
