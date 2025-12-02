@@ -17,10 +17,15 @@
           colors: {
             "tinko-blue": "#0044CC",
             "tinko-dark": "#0F172A",
-            "tinko-card": "#ffffff"
+            "tinko-card": "#ffffff",
+            "tinko-bg": "#F1F5F9"
           },
           fontFamily: {
             jakarta: ['"Plus Jakarta Sans"', "sans-serif"]
+          },
+          boxShadow: {
+            'premium': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+            'premium-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025)',
           }
         }
       }
@@ -29,10 +34,11 @@
   <style>
     body {
       font-family: "Plus Jakarta Sans", sans-serif;
-      background: #f8fafc;
+      background: #F1F5F9;
       color: #0f172a;
     }
 
+    /* Sidebar Steps */
     .step-item {
       display: flex;
       align-items: center;
@@ -42,12 +48,30 @@
       color: #64748b;
       transition: all 0.2s;
       cursor: pointer;
+      position: relative;
+    }
+
+    .step-item:hover {
+      background: #F8FAFC;
+      color: #334155;
     }
 
     .step-item.active {
-      background: #eff6ff;
+      background: #EFF6FF;
       color: #0044CC;
       font-weight: 600;
+    }
+
+    .step-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 24px;
+      width: 3px;
+      background: #0044CC;
+      border-radius: 0 4px 4px 0;
     }
 
     .step-circle {
@@ -60,6 +84,7 @@
       justify-content: center;
       font-size: 12px;
       font-weight: 600;
+      transition: all 0.2s;
     }
 
     .step-item.active .step-circle {
@@ -68,421 +93,527 @@
       color: white;
     }
 
+    /* Inputs */
     .input-field {
       background: #ffffff;
-      border: 1px solid #cbd5e1;
+      border: 1px solid #E2E8F0;
       color: #0f172a;
-      padding: 12px;
-      border-radius: 8px;
+      padding: 14px 16px;
+      border-radius: 10px;
       width: 100%;
       outline: none;
       transition: all 0.2s;
+      font-size: 15px;
     }
 
     .input-field:focus {
       border-color: #0044CC;
-      box-shadow: 0 0 0 3px rgba(0, 68, 204, 0.1);
+      box-shadow: 0 0 0 4px rgba(0, 68, 204, 0.1);
     }
 
+    /* Phone Preview */
     .preview-phone {
       background: white;
-      border-radius: 40px;
-      border: 8px solid #1e293b;
+      border-radius: 44px;
+      border: 10px solid #1e293b;
       overflow: hidden;
-      height: 640px;
-      width: 320px;
+      height: 680px;
+      width: 340px;
       position: relative;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Toggle Switch */
+    .toggle-checkbox:checked {
+      right: 0;
+      border-color: #0044CC;
+    }
+
+    .toggle-checkbox:checked+.toggle-label {
+      background-color: #0044CC;
+    }
+
+    .toggle-checkbox:checked+.toggle-label:before {
+      transform: translateX(100%);
+    }
+
+    .toggle-label {
+      width: 48px;
+      height: 26px;
+      position: relative;
+      display: block;
+      background: #cbd5e1;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .toggle-label:before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 9999px;
+      transition: 0.3s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
     }
   </style>
 </head>
 
-<body class="h-screen flex overflow-hidden bg-slate-50">
+<body class="h-screen flex overflow-hidden bg-tinko-bg">
 
   <!-- LEFT SIDEBAR -->
-  <aside class="w-64 bg-white border-r border-slate-200 flex flex-col hidden md:flex">
-    <div class="p-6 border-b border-slate-100">
-      <div class="flex items-center gap-2">
-        <div class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold text-xl">
+  <aside class="w-72 bg-white border-r border-slate-200 flex flex-col hidden md:flex shadow-sm z-10">
+    <div class="p-8 border-b border-slate-100">
+      <div class="flex items-center gap-3">
+        <div
+          class="w-9 h-9 bg-tinko-blue rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/30">
           T</div>
-        <span class="font-extrabold tracking-tight text-tinko-blue text-xl">Tinko.</span>
+        <span class="font-extrabold tracking-tight text-slate-900 text-2xl">Tinko.</span>
       </div>
     </div>
 
-    <div class="p-4 space-y-2 flex-1 overflow-y-auto">
-      <div class="text-xs font-bold text-slate-400 uppercase tracking-wider px-4 mb-2 mt-4">Setup Progress</div>
+    <div class="p-6 space-y-2 flex-1 overflow-y-auto">
+      <div class="text-xs font-bold text-slate-400 uppercase tracking-wider px-4 mb-3 mt-2">Onboarding</div>
 
       <div id="nav-step-1" class="step-item active" onclick="if(currentStep > 1) nextStep(1)">
         <div class="step-circle">1</div>
-        <span>Business Info</span>
+        <div class="flex flex-col">
+          <span class="text-sm font-medium">Business Info</span>
+          <span class="text-[10px] opacity-70 font-normal">Brand & details</span>
+        </div>
       </div>
 
       <div id="nav-step-2" class="step-item" onclick="if(currentStep > 2) nextStep(2)">
         <div class="step-circle">2</div>
-        <span>Connect Stack</span>
+        <div class="flex flex-col">
+          <span class="text-sm font-medium">Connect Stack</span>
+          <span class="text-[10px] opacity-70 font-normal">Gateways</span>
+        </div>
       </div>
 
       <div id="nav-step-3" class="step-item" onclick="if(currentStep > 3) nextStep(3)">
         <div class="step-circle">3</div>
-        <span>Recovery</span>
-      </div>
-
-      <!-- Mobile Header -->
-      <div class="md:hidden bg-white border-b border-slate-200 p-4 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold text-lg">T
-          </div>
-          <span class="font-bold text-slate-900">Step <span id="mobile-step-num">1</span>/4</span>
+        <div class="flex flex-col">
+          <span class="text-sm font-medium">Recovery</span>
+          <span class="text-[10px] opacity-70 font-normal">Channels</span>
         </div>
-        <a href="login.html" class="text-slate-500"><i class="ph-bold ph-sign-out text-xl"></i></a>
       </div>
 
-      <div class="flex-1 overflow-y-auto p-6 md:p-12 lg:p-16">
-        <div class="max-w-2xl mx-auto">
+      <div id="nav-step-4" class="step-item" onclick="if(currentStep > 4) nextStep(4)">
+        <div class="step-circle">4</div>
+        <div class="flex flex-col">
+          <span class="text-sm font-medium">Integration</span>
+          <span class="text-[10px] opacity-70 font-normal">Webhooks</span>
+        </div>
+      </div>
+    </div>
 
-          <!-- STEP 1: BUSINESS INFO -->
-          <div id="step-1" class="step-content">
-            <div class="mb-8">
-              <h1 class="text-3xl font-bold text-slate-900 mb-2">Tell us about your business</h1>
-              <p class="text-slate-500 text-lg">We'll customize your recovery messages based on this.</p>
+    <div class="p-6 border-t border-slate-100">
+      <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-50 border border-slate-100">
+        <div
+          class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 text-xs font-bold">JD
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-bold text-slate-900 truncate">John Doe</p>
+          <p class="text-xs text-slate-500 truncate">john@example.com</p>
+        </div>
+        <a href="login.html" class="text-slate-400 hover:text-slate-600"><i class="ph-bold ph-sign-out"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-1 flex flex-col h-full relative overflow-hidden">
+
+    <!-- Mobile Header -->
+    <div class="md:hidden bg-white border-b border-slate-200 p-4 flex items-center justify-between z-20">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold text-lg">T
+        </div>
+        <span class="font-bold text-slate-900">Step <span id="mobile-step-num">1</span>/4</span>
+      </div>
+      <a href="login.html" class="text-slate-500"><i class="ph-bold ph-sign-out text-xl"></i></a>
+    </div>
+
+    <div class="flex-1 overflow-y-auto">
+      <div class="max-w-3xl mx-auto p-6 md:p-12 lg:p-16">
+
+        <!-- STEP 1: BUSINESS INFO -->
+        <div id="step-1" class="step-content animate-fade-in">
+          <div class="mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-3 tracking-tight">Tell us about your business
+            </h1>
+            <p class="text-slate-500 text-lg">We'll customize your recovery messages based on this.</p>
+          </div>
+
+          <div class="space-y-6 bg-white p-8 md:p-10 rounded-3xl border border-slate-200 shadow-premium">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-2">Brand Name</label>
+              <input type="text" class="input-field" placeholder="e.g. Urban Kicks" id="brandName"
+                oninput="updatePreview()">
             </div>
 
-            <div class="space-y-6 bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-              <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Brand Name</label>
-                <input type="text" class="input-field" placeholder="e.g. Urban Kicks" id="brandName"
-                  oninput="updatePreview()">
-              </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-2">Website URL</label>
+              <input type="url" class="input-field" placeholder="https://urbankicks.in" id="websiteUrl">
+            </div>
 
-              <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Website URL</label>
-                <input type="url" class="input-field" placeholder="https://urbankicks.in" id="websiteUrl">
-              </div>
-
-              <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Monthly Revenue (Approx)</label>
-                <select class="input-field">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-2">Monthly Revenue (Approx)</label>
+              <div class="relative">
+                <select class="input-field appearance-none cursor-pointer">
                   <option>Less than ₹1 Lakh</option>
                   <option>₹1 Lakh - ₹10 Lakh</option>
                   <option>₹10 Lakh - ₹50 Lakh</option>
                   <option>₹50 Lakh+</option>
                 </select>
+                <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 pointer-events-none">
+                  <i class="ph-bold ph-caret-down"></i>
+                </div>
               </div>
+            </div>
 
-              <button onclick="nextStep(2)"
-                class="w-full bg-tinko-blue hover:bg-blue-700 text-white font-bold py-4 rounded-xl mt-4 transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2">
+            <button onclick="nextStep(2)"
+              class="w-full bg-tinko-blue hover:bg-blue-700 text-white font-bold py-4 rounded-xl mt-6 transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 text-lg">
+              Continue <i class="ph-bold ph-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: PAYMENT STACK -->
+        <div id="step-2" class="step-content hidden animate-fade-in">
+          <div class="mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-3 tracking-tight">Connect your stack</h1>
+            <p class="text-slate-500 text-lg">Tinko listens to these gateways to detect failures.</p>
+          </div>
+
+          <div class="space-y-4">
+            <!-- Razorpay -->
+            <div
+              class="p-6 border border-slate-200 bg-white rounded-2xl flex items-center justify-between hover:border-tinko-blue hover:shadow-premium-hover transition-all cursor-pointer group"
+              onclick="toggleGateway('razorpay')">
+              <div class="flex items-center gap-5">
+                <div
+                  class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 font-bold text-2xl group-hover:scale-110 transition-transform">
+                  R</div>
+                <div>
+                  <div class="font-bold text-slate-900 text-lg">Razorpay</div>
+                  <div class="text-sm text-slate-500">Popular in India</div>
+                </div>
+              </div>
+              <div id="check-razorpay"
+                class="w-7 h-7 rounded-full border-2 border-slate-300 flex items-center justify-center group-hover:border-tinko-blue transition bg-white">
+                <div class="w-3.5 h-3.5 bg-tinko-blue rounded-full hidden"></div>
+              </div>
+            </div>
+
+            <!-- Stripe -->
+            <div
+              class="p-6 border border-slate-200 bg-white rounded-2xl flex items-center justify-between hover:border-tinko-blue hover:shadow-premium-hover transition-all cursor-pointer group"
+              onclick="toggleGateway('stripe')">
+              <div class="flex items-center gap-5">
+                <div
+                  class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 font-bold text-2xl group-hover:scale-110 transition-transform">
+                  S</div>
+                <div>
+                  <div class="font-bold text-slate-900 text-lg">Stripe</div>
+                  <div class="text-sm text-slate-500">Global standard</div>
+                </div>
+              </div>
+              <div id="check-stripe"
+                class="w-7 h-7 rounded-full border-2 border-slate-300 flex items-center justify-center group-hover:border-tinko-blue transition bg-white">
+                <div class="w-3.5 h-3.5 bg-tinko-blue rounded-full hidden"></div>
+              </div>
+            </div>
+
+            <!-- Cashfree -->
+            <div
+              class="p-6 border border-slate-200 bg-white rounded-2xl flex items-center justify-between hover:border-tinko-blue hover:shadow-premium-hover transition-all cursor-pointer group"
+              onclick="toggleGateway('cashfree')">
+              <div class="flex items-center gap-5">
+                <div
+                  class="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-600 font-bold text-2xl group-hover:scale-110 transition-transform">
+                  C</div>
+                <div>
+                  <div class="font-bold text-slate-900 text-lg">Cashfree</div>
+                  <div class="text-sm text-slate-500">Growing fast</div>
+                </div>
+              </div>
+              <div id="check-cashfree"
+                class="w-7 h-7 rounded-full border-2 border-slate-300 flex items-center justify-center group-hover:border-tinko-blue transition bg-white">
+                <div class="w-3.5 h-3.5 bg-tinko-blue rounded-full hidden"></div>
+              </div>
+            </div>
+
+            <div class="flex gap-4 mt-10 pt-4">
+              <button onclick="nextStep(1)"
+                class="px-8 py-4 rounded-xl border border-slate-300 hover:bg-slate-50 text-slate-600 font-bold transition">Back</button>
+              <button onclick="nextStep(3)"
+                class="flex-1 bg-tinko-blue hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 text-lg">
                 Continue <i class="ph-bold ph-arrow-right"></i>
               </button>
             </div>
           </div>
+        </div>
 
-          <!-- STEP 2: PAYMENT STACK -->
-          <div id="step-2" class="step-content hidden">
-            <div class="mb-8">
-              <h1 class="text-3xl font-bold text-slate-900 mb-2">Connect your stack</h1>
-              <p class="text-slate-500 text-lg">Tinko listens to these gateways to detect failures.</p>
-            </div>
-
-            <div class="space-y-4">
-              <!-- Razorpay -->
-              <div
-                class="p-5 border border-slate-200 bg-white rounded-xl flex items-center justify-between hover:border-tinko-blue hover:shadow-md transition cursor-pointer group"
-                onclick="toggleGateway('razorpay')">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 font-bold text-xl">
-                    R</div>
-                  <div>
-                    <div class="font-bold text-slate-900 text-lg">Razorpay</div>
-                    <div class="text-sm text-slate-500">Popular in India</div>
-                  </div>
-                </div>
-                <div id="check-razorpay"
-                  class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center group-hover:border-tinko-blue transition">
-                  <div class="w-3 h-3 bg-tinko-blue rounded-full hidden"></div>
-                </div>
-              </div>
-
-              <!-- Stripe -->
-              <div
-                class="p-5 border border-slate-200 bg-white rounded-xl flex items-center justify-between hover:border-tinko-blue hover:shadow-md transition cursor-pointer group"
-                onclick="toggleGateway('stripe')">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 font-bold text-xl">
-                    S</div>
-                  <div>
-                    <div class="font-bold text-slate-900 text-lg">Stripe</div>
-                    <div class="text-sm text-slate-500">Global standard</div>
-                  </div>
-                </div>
-                <div id="check-stripe"
-                  class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center group-hover:border-tinko-blue transition">
-                  <div class="w-3 h-3 bg-tinko-blue rounded-full hidden"></div>
-                </div>
-              </div>
-
-              <!-- Cashfree -->
-              <div
-                class="p-5 border border-slate-200 bg-white rounded-xl flex items-center justify-between hover:border-tinko-blue hover:shadow-md transition cursor-pointer group"
-                onclick="toggleGateway('cashfree')">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600 font-bold text-xl">
-                    C</div>
-                  <div>
-                    <div class="font-bold text-slate-900 text-lg">Cashfree</div>
-                    <div class="text-sm text-slate-500">Growing fast</div>
-                  </div>
-                </div>
-                <div id="check-cashfree"
-                  class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center group-hover:border-tinko-blue transition">
-                  <div class="w-3 h-3 bg-tinko-blue rounded-full hidden"></div>
-                </div>
-              </div>
-
-              <div class="flex gap-4 mt-8 pt-4">
-                <button onclick="nextStep(1)"
-                  class="px-6 py-3 rounded-xl border border-slate-300 hover:bg-slate-50 text-slate-600 font-bold transition">Back</button>
-                <button onclick="nextStep(3)"
-                  class="flex-1 bg-tinko-blue hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2">
-                  Continue <i class="ph-bold ph-arrow-right"></i>
-                </button>
-              </div>
-            </div>
+        <!-- STEP 3: RECOVERY PREFS -->
+        <div id="step-3" class="step-content hidden animate-fade-in">
+          <div class="mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-3 tracking-tight">Recovery Channels</h1>
+            <p class="text-slate-500 text-lg">How should we contact your customers?</p>
           </div>
 
-          <!-- STEP 3: RECOVERY PREFS -->
-          <div id="step-3" class="step-content hidden">
-            <div class="mb-8">
-              <h1 class="text-3xl font-bold text-slate-900 mb-2">Recovery Channels</h1>
-              <p class="text-slate-500 text-lg">How should we contact your customers?</p>
+          <div class="space-y-6 bg-white p-8 md:p-10 rounded-3xl border border-slate-200 shadow-premium">
+            <!-- WhatsApp -->
+            <div class="pb-6 border-b border-slate-100">
+              <div class="flex justify-between items-start">
+                <div>
+                  <div class="flex items-center gap-2 mb-1">
+                    <label class="font-bold text-slate-900 text-lg flex items-center gap-2"><i
+                        class="ph-fill ph-whatsapp-logo text-green-500 text-2xl"></i> WhatsApp</label>
+                    <span
+                      class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">Recommended</span>
+                  </div>
+                  <p class="text-sm text-slate-500">Sends a friendly, branded message with a one-click payment link.
+                  </p>
+                </div>
+
+                <div class="flex items-center">
+                  <input type="checkbox" id="toggle-whatsapp" class="hidden toggle-checkbox" checked>
+                  <label for="toggle-whatsapp" class="toggle-label"></label>
+                </div>
+              </div>
             </div>
 
-            <div class="space-y-6 bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-              <!-- WhatsApp -->
-              <div class="pb-6 border-b border-slate-100">
-                <div class="flex justify-between items-center mb-2">
-                  <label class="font-bold text-slate-900 flex items-center gap-2"><i
-                      class="ph-fill ph-whatsapp-logo text-green-500 text-xl"></i> WhatsApp</label>
-                  <span
-                    class="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full font-bold">Recommended</span>
+            <!-- SMS -->
+            <div class="pb-6 border-b border-slate-100">
+              <div class="flex justify-between items-start">
+                <div>
+                  <div class="flex items-center gap-2 mb-1">
+                    <label class="font-bold text-slate-900 text-lg flex items-center gap-2"><i
+                        class="ph-fill ph-chat-text text-blue-500 text-2xl"></i> SMS Fallback</label>
+                  </div>
+                  <p class="text-sm text-slate-500">Sent if WhatsApp fails or is not delivered within 5 minutes.</p>
                 </div>
-                <p class="text-sm text-slate-500 mb-4">Sends a friendly, branded message with a one-click payment link.
-                </p>
-                <div class="flex gap-2">
-                  <button
-                    class="px-4 py-2 rounded-lg text-sm font-bold bg-tinko-blue text-white border border-tinko-blue transition"
-                    onclick="toggleBtn(this)">Enabled</button>
-                  <button
-                    class="px-4 py-2 rounded-lg text-sm font-bold bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 transition"
-                    onclick="toggleBtn(this)">Disabled</button>
-                </div>
-              </div>
 
-              <!-- SMS -->
-              <div class="pb-6 border-b border-slate-100">
-                <div class="flex justify-between items-center mb-2">
-                  <label class="font-bold text-slate-900 flex items-center gap-2"><i
-                      class="ph-fill ph-chat-text text-blue-500 text-xl"></i> SMS Fallback</label>
-                </div>
-                <p class="text-sm text-slate-500 mb-4">Sent if WhatsApp fails or is not delivered within 5 minutes.</p>
-                <div class="flex gap-2">
-                  <button
-                    class="px-4 py-2 rounded-lg text-sm font-bold bg-tinko-blue text-white border border-tinko-blue transition"
-                    onclick="toggleBtn(this)">Enabled</button>
-                  <button
-                    class="px-4 py-2 rounded-lg text-sm font-bold bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 transition"
-                    onclick="toggleBtn(this)">Disabled</button>
+                <div class="flex items-center">
+                  <input type="checkbox" id="toggle-sms" class="hidden toggle-checkbox" checked>
+                  <label for="toggle-sms" class="toggle-label"></label>
                 </div>
               </div>
+            </div>
 
-              <!-- Email -->
-              <div>
-                <div class="flex justify-between items-center mb-2">
-                  <label class="font-bold text-slate-900 flex items-center gap-2"><i
-                      class="ph-fill ph-envelope-simple text-slate-500 text-xl"></i> Email Recovery</label>
+            <!-- Email -->
+            <div>
+              <div class="flex justify-between items-start">
+                <div>
+                  <div class="flex items-center gap-2 mb-1">
+                    <label class="font-bold text-slate-900 text-lg flex items-center gap-2"><i
+                        class="ph-fill ph-envelope-simple text-slate-500 text-2xl"></i> Email Recovery</label>
+                  </div>
+                  <p class="text-sm text-slate-500">A professional email follow-up for higher value carts.</p>
                 </div>
-                <p class="text-sm text-slate-500 mb-4">A professional email follow-up for higher value carts.</p>
-                <div class="flex gap-2">
-                  <button
-                    class="px-4 py-2 rounded-lg text-sm font-bold bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 transition"
-                    onclick="toggleBtn(this)">Enabled</button>
-                  <button
-                    class="px-4 py-2 rounded-lg text-sm font-bold bg-tinko-blue text-white border border-tinko-blue transition"
-                    onclick="toggleBtn(this)">Disabled</button>
-                </div>
-              </div>
 
-              <div class="flex gap-4 mt-8 pt-4">
-                <button onclick="nextStep(2)"
-                  class="px-6 py-3 rounded-xl border border-slate-300 hover:bg-slate-50 text-slate-600 font-bold transition">Back</button>
-                <button onclick="nextStep(4)"
-                  class="flex-1 bg-tinko-blue hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2">
-                  Continue <i class="ph-bold ph-arrow-right"></i>
-                </button>
+                <div class="flex items-center">
+                  <input type="checkbox" id="toggle-email" class="hidden toggle-checkbox">
+                  <label for="toggle-email" class="toggle-label"></label>
+                </div>
               </div>
+            </div>
+
+            <div class="flex gap-4 mt-10 pt-4">
+              <button onclick="nextStep(2)"
+                class="px-8 py-4 rounded-xl border border-slate-300 hover:bg-slate-50 text-slate-600 font-bold transition">Back</button>
+              <button onclick="nextStep(4)"
+                class="flex-1 bg-tinko-blue hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 text-lg">
+                Continue <i class="ph-bold ph-arrow-right"></i>
+              </button>
             </div>
           </div>
+        </div>
 
-          <!-- STEP 4: TECHNICAL SETUP (WEBHOOKS) -->
-          <div id="step-4" class="step-content hidden">
-            <div class="mb-8">
-              <h1 class="text-3xl font-bold text-slate-900 mb-2">Final Step: Webhooks</h1>
-              <p class="text-slate-500 text-lg">Add this URL to your payment gateway settings.</p>
-            </div>
-
-            <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-              <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6">
-                <label class="text-xs text-slate-500 uppercase font-bold tracking-wider">Your Webhook URL</label>
-                <div class="flex items-center gap-2 mt-2">
-                  <code
-                    class="flex-1 bg-white border border-slate-200 p-4 rounded-lg text-emerald-600 font-mono text-sm break-all">https://api.tinko.in/webhooks/v1/listener</code>
-                  <button
-                    class="bg-white border border-slate-200 hover:bg-slate-50 p-4 rounded-lg text-slate-600 transition"
-                    title="Copy">
-                    <i class="ph-bold ph-copy"></i>
-                  </button>
-                </div>
-                <p class="text-xs text-slate-500 mt-3 flex items-center gap-1">
-                  <i class="ph-fill ph-info text-blue-500"></i> We'll automatically detect when you add this.
-                </p>
-              </div>
-
-              <div class="flex items-start gap-3 mb-8 p-4 bg-blue-50 rounded-xl border border-blue-100">
-                <input type="checkbox" class="mt-1 w-5 h-5 accent-tinko-blue rounded cursor-pointer">
-                <p class="text-sm text-slate-700 font-medium">I have added the webhook URL to my payment gateway
-                  dashboard.</p>
-              </div>
-
-              <div class="flex gap-4">
-                <button onclick="nextStep(3)"
-                  class="px-6 py-3 rounded-xl border border-slate-300 hover:bg-slate-50 text-slate-600 font-bold transition">Back</button>
-                <button onclick="finishSetup()"
-                  class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-emerald-900/20 transition-all flex items-center justify-center gap-2">
-                  Finish Setup <i class="ph-bold ph-check"></i>
-                </button>
-              </div>
-            </div>
+        <!-- STEP 4: TECHNICAL SETUP (WEBHOOKS) -->
+        <div id="step-4" class="step-content hidden animate-fade-in">
+          <div class="mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-3 tracking-tight">Final Step: Webhooks</h1>
+            <p class="text-slate-500 text-lg">Add this URL to your payment gateway settings.</p>
           </div>
 
+          <div class="bg-white p-8 md:p-10 rounded-3xl border border-slate-200 shadow-premium">
+            <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 mb-8">
+              <label class="text-xs text-slate-500 uppercase font-bold tracking-wider">Your Webhook URL</label>
+              <div class="flex items-center gap-3 mt-3">
+                <code
+                  class="flex-1 bg-white border border-slate-200 p-4 rounded-xl text-emerald-600 font-mono text-sm break-all shadow-sm">https://api.tinko.in/webhooks/v1/listener</code>
+                <button
+                  class="bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 p-4 rounded-xl text-slate-600 transition shadow-sm group"
+                  title="Copy">
+                  <i class="ph-bold ph-copy group-hover:scale-110 transition-transform"></i>
+                </button>
+              </div>
+              <p class="text-xs text-slate-500 mt-4 flex items-center gap-1.5">
+                <i class="ph-fill ph-info text-blue-500"></i> We'll automatically detect when you add this.
+              </p>
+            </div>
+
+            <div class="flex items-start gap-4 mb-10 p-5 bg-blue-50/50 rounded-2xl border border-blue-100">
+              <input type="checkbox" class="mt-1 w-5 h-5 accent-tinko-blue rounded cursor-pointer">
+              <p class="text-sm text-slate-700 font-medium leading-relaxed">I confirm that I have added the webhook URL
+                to my payment gateway dashboard and enabled "payment.failed" events.</p>
+            </div>
+
+            <div class="flex gap-4">
+              <button onclick="nextStep(3)"
+                class="px-8 py-4 rounded-xl border border-slate-300 hover:bg-slate-50 text-slate-600 font-bold transition">Back</button>
+              <button onclick="finishSetup()"
+                class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-900/20 transition-all flex items-center justify-center gap-2 text-lg">
+                Finish Setup <i class="ph-bold ph-check"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- RIGHT: LIVE PREVIEW -->
+  <aside
+    class="hidden xl:flex w-[520px] bg-slate-100 border-l border-slate-200 items-center justify-center p-8 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.03]"
+      style="background-image: radial-gradient(#0044CC 1px, transparent 1px); background-size: 32px 32px;"></div>
+
+    <div class="relative z-10 flex flex-col items-center">
+      <h3 class="text-slate-400 font-bold uppercase tracking-widest text-xs mb-10">Live Preview</h3>
+
+      <div class="preview-phone shadow-2xl bg-white transform hover:scale-[1.02] transition-transform duration-500">
+        <!-- Phone Header -->
+        <div class="bg-[#075E54] text-white h-20 flex items-center px-5 gap-4 pt-4">
+          <i class="ph-bold ph-arrow-left text-xl"></i>
+          <div class="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">T</div>
+          <div>
+            <div class="font-bold text-base">Tinko Recovery</div>
+            <div class="text-[11px] opacity-80">Business Account</div>
+          </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="bg-[#ECE5DD] h-full p-5 pt-8 relative">
+          <!-- Message Bubble -->
+          <div
+            class="bg-white p-4 rounded-xl rounded-tl-none shadow-sm max-w-[90%] text-sm text-gray-800 mb-4 transform translate-y-0 opacity-100 transition-all duration-500">
+            <p class="text-[15px] leading-relaxed">Hi there! 👋</p>
+            <p class="mt-2 text-[15px] leading-relaxed">We noticed your payment for <b id="previewBrand"
+                class="text-tinko-blue">Urban Kicks</b>
+              failed.</p>
+            <p class="text-[10px] text-gray-400 text-right mt-1.5">10:42 AM</p>
+          </div>
+
+          <div
+            class="bg-white p-4 rounded-xl rounded-tl-none shadow-sm max-w-[90%] text-sm text-gray-800 transform translate-y-0 opacity-100 transition-all duration-500 delay-100">
+            <p class="text-[15px] leading-relaxed">No worries! You can retry securely here:</p>
+            <a href="#" class="text-blue-500 underline block mt-2 font-medium text-[15px]">tinko.in/pay/x8s9d</a>
+            <p class="text-[10px] text-gray-400 text-right mt-1.5">10:42 AM</p>
+          </div>
         </div>
       </div>
-      </main>
 
-      <!-- RIGHT: LIVE PREVIEW -->
-      <aside
-        class="hidden xl:flex w-[480px] bg-slate-100 border-l border-slate-200 items-center justify-center p-8 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-5"
-          style="background-image: radial-gradient(#0044CC 1px, transparent 1px); background-size: 24px 24px;"></div>
+      <p class="text-slate-400 text-xs mt-10 text-center max-w-xs leading-relaxed">This is how your customers will see
+        the recovery
+        message on WhatsApp.</p>
+    </div>
+  </aside>
 
-        <div class="relative z-10 flex flex-col items-center">
-          <h3 class="text-slate-400 font-bold uppercase tracking-widest text-xs mb-8">Live Preview</h3>
+  <script>
+    let currentStep = 1;
 
-          <div class="preview-phone shadow-2xl bg-white">
-            <!-- Phone Header -->
-            <div class="bg-[#075E54] text-white h-16 flex items-center px-4 gap-3">
-              <i class="ph-bold ph-arrow-left"></i>
-              <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-xs font-bold">T</div>
-              <div>
-                <div class="font-bold text-sm">Tinko Recovery</div>
-                <div class="text-[10px] opacity-80">Business Account</div>
-              </div>
-            </div>
+    function nextStep(step) {
+      // Hide all steps
+      document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
 
-            <!-- Chat Area -->
-            <div class="bg-[#ECE5DD] h-full p-4 pt-8 relative">
-              <!-- Message Bubble -->
-              <div
-                class="bg-white p-3 rounded-lg rounded-tl-none shadow-sm max-w-[90%] text-sm text-gray-800 mb-4 transform translate-y-0 opacity-100 transition-all duration-500">
-                <p>Hi there! 👋</p>
-                <p class="mt-1">We noticed your payment for <b id="previewBrand" class="text-tinko-blue">Urban Kicks</b>
-                  failed.</p>
-                <p class="text-[10px] text-gray-400 text-right mt-1">10:42 AM</p>
-              </div>
+      // Show target step
+      document.getElementById(`step-${step}`).classList.remove('hidden');
 
-              <div
-                class="bg-white p-3 rounded-lg rounded-tl-none shadow-sm max-w-[90%] text-sm text-gray-800 transform translate-y-0 opacity-100 transition-all duration-500 delay-100">
-                <p>No worries! You can retry securely here:</p>
-                <a href="#" class="text-blue-500 underline block mt-1 font-medium">tinko.in/pay/x8s9d</a>
-                <p class="text-[10px] text-gray-400 text-right mt-1">10:42 AM</p>
-              </div>
-            </div>
-          </div>
+      // Update Sidebar
+      document.querySelectorAll('.step-item').forEach(el => {
+        el.classList.remove('active');
+      });
 
-          <p class="text-slate-400 text-xs mt-8 text-center max-w-xs">This is how your customers will see the recovery
-            message on WhatsApp.</p>
-        </div>
-      </aside>
+      const activeNav = document.getElementById(`nav-step-${step}`);
+      if (activeNav) activeNav.classList.add('active');
 
-      <script>
-        let currentStep = 1;
+      // Update Mobile Header
+      const mobileStep = document.getElementById('mobile-step-num');
+      if (mobileStep) mobileStep.innerText = step;
 
-        function nextStep(step) {
-          // Hide all steps
-          document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+      currentStep = step;
+    }
 
-          // Show target step
-          document.getElementById(`step-${step}`).classList.remove('hidden');
+    function toggleGateway(gw) {
+      const check = document.getElementById(`check-${gw}`).querySelector('div');
+      check.classList.toggle('hidden');
 
-          // Update Sidebar
-          document.querySelectorAll('.step-item').forEach(el => {
-            el.classList.remove('active');
-          });
+      // Visual feedback on parent
+      const parent = document.getElementById(`check-${gw}`).parentElement;
+      if (!check.classList.contains('hidden')) {
+        parent.classList.add('border-tinko-blue', 'bg-blue-50/30', 'shadow-sm');
+      } else {
+        parent.classList.remove('border-tinko-blue', 'bg-blue-50/30', 'shadow-sm');
+      }
+    }
 
-          const activeNav = document.getElementById(`nav-step-${step}`);
-          if (activeNav) activeNav.classList.add('active');
+    function toggleBtn(btn) {
+      const parent = btn.parentElement;
+      const buttons = parent.querySelectorAll('button');
 
-          // Update Mobile Header
-          const mobileStep = document.getElementById('mobile-step-num');
-          if (mobileStep) mobileStep.innerText = step;
+      buttons.forEach(b => {
+        b.classList.remove('bg-tinko-blue', 'text-white', 'border-tinko-blue');
+        b.classList.add('bg-white', 'text-slate-500', 'border-slate-200');
+      });
 
-          currentStep = step;
-        }
+      btn.classList.remove('bg-white', 'text-slate-500', 'border-slate-200');
+      btn.classList.add('bg-tinko-blue', 'text-white', 'border-tinko-blue');
+    }
 
-        function toggleGateway(gw) {
-          const check = document.getElementById(`check-${gw}`).querySelector('div');
-          check.classList.toggle('hidden');
+    function updatePreview() {
+      const name = document.getElementById('brandName').value;
+      document.getElementById('previewBrand').innerText = name || "Urban Kicks";
+    }
 
-          // Visual feedback on parent
-          const parent = document.getElementById(`check-${gw}`).parentElement;
-          if (!check.classList.contains('hidden')) {
-            parent.classList.add('border-tinko-blue', 'bg-blue-50/30');
-          } else {
-            parent.classList.remove('border-tinko-blue', 'bg-blue-50/30');
-          }
-        }
+    function finishSetup() {
+      // Simulate loading
+      const btn = document.querySelector('button[onclick="finishSetup()"]');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Setting up...';
+      btn.disabled = true;
 
-        function toggleBtn(btn) {
-          const parent = btn.parentElement;
-          const buttons = parent.querySelectorAll('button');
-
-          buttons.forEach(b => {
-            b.classList.remove('bg-tinko-blue', 'text-white', 'border-tinko-blue');
-            b.classList.add('bg-white', 'text-slate-500', 'border-slate-200');
-          });
-
-          btn.classList.remove('bg-white', 'text-slate-500', 'border-slate-200');
-          btn.classList.add('bg-tinko-blue', 'text-white', 'border-tinko-blue');
-        }
-
-        function updatePreview() {
-          const name = document.getElementById('brandName').value;
-          document.getElementById('previewBrand').innerText = name || "Urban Kicks";
-        }
-
-        function finishSetup() {
-          // Simulate loading
-          const btn = document.querySelector('button[onclick="finishSetup()"]');
-          const originalText = btn.innerHTML;
-          btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Setting up...';
-          btn.disabled = true;
-
-          setTimeout(() => {
-            window.location.href = "dashboard-preview.html";
-          }, 1500);
-        }
-      </script>
+      setTimeout(() => {
+        window.location.href = "dashboard-preview.html";
+      }, 1500);
+    }
+  </script>
 </body>
 
 </html>
