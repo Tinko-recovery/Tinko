@@ -6,7 +6,7 @@ const API_BASE = (() => {
   if (!hostname || hostname === 'localhost' || hostname === '127.0.0.1') {
     return "http://127.0.0.1:8000";
   }
-  return 'https://tinko-clean-backend.onrender.com';
+  return 'https://tinko-2.onrender.com';
 })();
 
 const PROFILE_URL = `${API_BASE}/v1/customer/profile`;
