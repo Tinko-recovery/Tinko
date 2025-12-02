@@ -10,16 +10,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#DE6B06', // Tinko Orange
-                        secondary: '#0b1220' // Tinko Dark
+                        tinko: {
+                            blue: '#0044CC',
+                            dark: '#002a80',
+                            light: '#E6F0FF',
+                            text: '#0F172A',
+                            gray: '#64748B'
+                        },
+                        primary: '#DE6B06', // Keeping for legacy support if needed, but preferring tinko-blue
+                        secondary: '#0b1220'
                     },
                     fontFamily: {
-                        'jakarta': ['"Plus Jakarta Sans"', 'sans-serif']
+                        'jakarta': ['"Plus Jakarta Sans"', 'sans-serif'],
+                        'sans': ['"Plus Jakarta Sans"', 'sans-serif']
                     }
                 }
             }
@@ -27,68 +36,119 @@
     </script>
 </head>
 
-<body class="font-jakarta bg-gray-50 text-gray-900">
+<body class="font-sans text-tinko-text antialiased bg-gray-50">
 
-    <div class="max-w-4xl mx-auto px-6 py-12 bg-white shadow-lg my-10 rounded-xl">
-        <h1 class="text-3xl font-bold mb-2">CANCELLATION & REFUND POLICY</h1>
-        <p class="text-sm text-gray-500 mb-8">Last Updated: 29 Nov 2025</p>
-
-        <div class="space-y-8 text-sm leading-relaxed">
-
-            <section>
-                <h2 class="text-lg font-bold mb-2">1. Cancellation Policy</h2>
-                <p>You may cancel your subscription to Tinko at any time. Cancellations will take effect at the end of
-                    the current billing cycle.</p>
-                <ul class="list-disc pl-5 space-y-1 mt-2">
-                    <li>To cancel, please log in to your dashboard and navigate to Settings > Billing.</li>
-                    <li>Alternatively, you can email us at <a href="mailto:support@tinko.in"
-                            class="text-primary hover:underline">support@tinko.in</a>.</li>
-                    <li>Once cancelled, you will not be charged for the next billing cycle.</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2 class="text-lg font-bold mb-2">2. Refund Policy</h2>
-                <p>We strive to provide the best service possible. However, if you are not satisfied, our refund policy
-                    is as follows:</p>
-
-                <h3 class="font-semibold mt-4 mb-2">Monthly Subscriptions</h3>
-                <p>We do not offer refunds for partial months of service. If you cancel mid-month, your access will
-                    continue until the end of the billing period.</p>
-
-                <h3 class="font-semibold mt-4 mb-2">Annual Subscriptions</h3>
-                <p>If you cancel an annual subscription within the first 30 days, you are eligible for a full refund.
-                    After 30 days, refunds are pro-rated based on the remaining full months.</p>
-
-                <h3 class="font-semibold mt-4 mb-2">Exceptions</h3>
-                <p>Refunds may be granted in exceptional circumstances, such as:</p>
-                <ul class="list-disc pl-5 space-y-1 mt-2">
-                    <li>Service downtime exceeding our SLA.</li>
-                    <li>Billing errors or duplicate charges.</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2 class="text-lg font-bold mb-2">3. Processing of Refunds</h2>
-                <p>Approved refunds will be processed within 5-7 business days and credited back to the original payment
-                    method.</p>
-            </section>
-
-            <section>
-                <h2 class="text-lg font-bold mb-2">4. Contact Us</h2>
-                <p>If you have any questions about our Cancellation and Refund Policy, please contact us:</p>
-                <p class="mt-2">Blocks & Loops Technologies Pvt Ltd</p>
-                <p>Email: <a href="mailto:support@tinko.in" class="text-primary hover:underline">support@tinko.in</a>
-                </p>
-            </section>
-
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex-shrink-0 flex items-center gap-2">
+                    <div
+                        class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                        T</div>
+                    <span class="font-bold text-2xl tracking-tight text-tinko-blue">Tinko.</span>
+                </a>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#how-it-works"
+                        class="text-sm font-medium text-gray-600 hover:text-tinko-blue transition">How it Works</a>
+                    <a href="index.html#pricing"
+                        class="text-sm font-medium text-gray-600 hover:text-tinko-blue transition">Pricing</a>
+                    <a href="index.html#roi-calculator"
+                        class="text-sm font-medium text-gray-600 hover:text-tinko-blue transition">Calculator</a>
+                    <!-- Auth Links -->
+                    <div class="flex items-center gap-4 border-l border-gray-200 pl-8">
+                        <a href="dashboard/login.html"
+                            class="text-sm font-medium text-gray-900 hover:text-tinko-blue transition">Login</a>
+                        <a href="dashboard/login.html?intent=signup"
+                            class="bg-tinko-blue text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-tinko-dark transition shadow-lg shadow-blue-500/30">Start
+                            Recovering</a>
+                    </div>
+                </div>
+            </div>
         </div>
+    </nav>
 
-        <div class="mt-12 pt-8 border-t border-gray-200 text-center">
-            <a href="index.html" class="text-sm font-semibold text-gray-500 hover:text-gray-900">← Back to Home</a>
+    <!-- CONTENT -->
+    <section class="pt-32 pb-20">
+        <div class="max-w-4xl mx-auto px-6 py-12 bg-white shadow-lg rounded-xl">
+            <h1 class="text-3xl font-bold mb-2">CANCELLATION & REFUND POLICY</h1>
+            <p class="text-sm text-gray-500 mb-8">Last Updated: 02 Dec 2025</p>
+
+            <div class="space-y-8 text-sm leading-relaxed">
+
+                <section>
+                    <h2 class="text-lg font-bold mb-2">1. Pay-As-You-Go Model</h2>
+                    <p>Tinko operates on a strictly performance-based "Pay-As-You-Go" model. This means:</p>
+                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                        <li>There are <strong>no upfront setup fees</strong>.</li>
+                        <li>There are <strong>no monthly or annual subscription charges</strong>.</li>
+                        <li>We only charge a small commission fee when we successfully recover a failed payment for you.
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-lg font-bold mb-2">2. Cancellation Policy</h2>
+                    <p>Since there are no recurring subscriptions, you are not bound by any long-term contracts.</p>
+                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                        <li>You may stop using Tinko at any time by simply disabling the service in your dashboard.</li>
+                        <li>There are <strong>no cancellation fees</strong> or penalties for discontinuing the service.
+                        </li>
+                        <li>Upon disabling the service, no further recovery attempts will be made, and no further fees
+                            will be incurred.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-lg font-bold mb-2">3. Refund Policy</h2>
+                    <p>Because our fees are only charged <em>after</em> a successful service delivery (i.e., recovering
+                        a payment), traditional refunds for "subscription time" do not apply.</p>
+
+                    <h3 class="font-semibold mt-4 mb-2">Commission Fees</h3>
+                    <p>Commission fees charged on successful recoveries are generally non-refundable, as the service
+                        (the recovery of funds) has been successfully completed.</p>
+
+                    <h3 class="font-semibold mt-4 mb-2">Exceptions & Billing Errors</h3>
+                    <p>We value fairness. Refunds on commission fees may be considered in the following cases:</p>
+                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                        <li><strong>Billing Errors:</strong> If you believe you were charged a commission in error
+                            (e.g., for a transaction that was not actually recovered), please contact us immediately for
+                            a full refund of the fee.</li>
+                        <li><strong>Duplicate Charges:</strong> Any duplicate charges will be refunded instantly upon
+                            verification.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-lg font-bold mb-2">4. Contact Us</h2>
+                    <p>If you have any questions about our policies or need to report a billing issue, please contact
+                        us:</p>
+                    <p class="mt-2">Blocks & Loops Technologies Pvt Ltd</p>
+                    <p>Email: <a href="mailto:support@tinko.in"
+                            class="text-tinko-blue hover:underline">support@tinko.in</a></p>
+                </section>
+
+            </div>
         </div>
+    </section>
 
-    </div>
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center gap-2 mb-4 md:mb-0">
+                    <div class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold">
+                        T</div>
+                    <span class="font-bold text-xl">Tinko.</span>
+                </div>
+                <div class="text-gray-400 text-sm">
+                    &copy; 2025 Blocks & Loops Technologies Pvt Ltd. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
 
 </body>
 

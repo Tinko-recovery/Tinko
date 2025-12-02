@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms of Service - Tinko</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
                         tinko: {
                             blue: '#0044CC',
@@ -20,7 +20,13 @@
                             light: '#E6F0FF',
                             text: '#0F172A',
                             gray: '#64748B'
-                        }
+                        },
+                        primary: '#DE6B06',
+                        secondary: '#0b1220'
+                    },
+                    fontFamily: {
+                        'jakarta': ['"Plus Jakarta Sans"', 'sans-serif'],
+                        'sans': ['"Plus Jakarta Sans"', 'sans-serif']
                     }
                 }
             }
@@ -28,7 +34,7 @@
     </script>
 </head>
 
-<body class="font-sans text-tinko-text antialiased bg-white">
+<body class="font-sans text-tinko-text antialiased bg-gray-50">
 
     <!-- NAVIGATION -->
     <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
@@ -41,13 +47,22 @@
                         T</div>
                     <span class="font-bold text-2xl tracking-tight text-tinko-blue">Tinko.</span>
                 </a>
-
                 <!-- Desktop Menu -->
-                <div class="flex items-center gap-8">
-                    <a href="index.html"
-                        class="text-sm font-medium text-gray-900 hover:text-tinko-blue transition flex items-center gap-2">
-                        <i class="ph-bold ph-house"></i> Home
-                    </a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#how-it-works"
+                        class="text-sm font-medium text-gray-600 hover:text-tinko-blue transition">How it Works</a>
+                    <a href="index.html#pricing"
+                        class="text-sm font-medium text-gray-600 hover:text-tinko-blue transition">Pricing</a>
+                    <a href="index.html#roi-calculator"
+                        class="text-sm font-medium text-gray-600 hover:text-tinko-blue transition">Calculator</a>
+                    <!-- Auth Links -->
+                    <div class="flex items-center gap-4 border-l border-gray-200 pl-8">
+                        <a href="dashboard/login.html"
+                            class="text-sm font-medium text-gray-900 hover:text-tinko-blue transition">Login</a>
+                        <a href="dashboard/login.html?intent=signup"
+                            class="bg-tinko-blue text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-tinko-dark transition shadow-lg shadow-blue-500/30">Start
+                            Recovering</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,55 +70,60 @@
 
     <!-- CONTENT -->
     <section class="pt-32 pb-20">
-        <div class="max-w-4xl mx-auto px-4">
-            <h1 class="text-4xl font-bold mb-8">Terms of Service</h1>
-            <div class="prose prose-blue max-w-none text-gray-600">
-                <p>Last updated: November 2025</p>
-                <p>Please read these Terms of Service ("Terms", "Terms of Service") carefully before using the Tinko
-                    website and services operated by Blocks & Loops Technologies Pvt Ltd.</p>
+        <div class="max-w-4xl mx-auto px-6 py-12 bg-white shadow-lg rounded-xl">
+            <h1 class="text-3xl font-bold mb-2">TERMS OF SERVICE</h1>
+            <p class="text-sm text-gray-500 mb-8">Last Updated: November 2025</p>
 
-                <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">1. Acceptance of Terms</h3>
-                <p>By accessing or using our service, you agree to be bound by these Terms. If you disagree with any
-                    part of the terms, then you may not access the service.</p>
+            <div class="space-y-8 text-sm leading-relaxed">
+                <section>
+                    <h2 class="text-lg font-bold mb-2">1. Acceptance of Terms</h2>
+                    <p>By accessing or using our service, you agree to be bound by these Terms. If you disagree with any
+                        part of the terms, then you may not access the service.</p>
+                </section>
 
-                <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">2. Accounts</h3>
-                <p>When you create an account with us, you must provide us information that is accurate, complete, and
-                    current at all times. Failure to do so constitutes a breach of the Terms.</p>
+                <section>
+                    <h2 class="text-lg font-bold mb-2">2. Accounts</h2>
+                    <p>When you create an account with us, you must provide us information that is accurate, complete,
+                        and
+                        current at all times. Failure to do so constitutes a breach of the Terms.</p>
+                </section>
 
-                <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">3. Intellectual Property</h3>
-                <p>The Service and its original content, features, and functionality are and will remain the exclusive
-                    property of Tinko and its licensors.</p>
+                <section>
+                    <h2 class="text-lg font-bold mb-2">3. Intellectual Property</h2>
+                    <p>The Service and its original content, features, and functionality are and will remain the
+                        exclusive
+                        property of Tinko and its licensors.</p>
+                </section>
 
-                <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">4. Termination</h3>
-                <p>We may terminate or suspend access to our Service immediately, without prior notice or liability, for
-                    any reason whatsoever, including without limitation if you breach the Terms.</p>
+                <section>
+                    <h2 class="text-lg font-bold mb-2">4. Termination</h2>
+                    <p>We may terminate or suspend access to our Service immediately, without prior notice or liability,
+                        for
+                        any reason whatsoever, including without limitation if you breach the Terms.</p>
+                </section>
+
+                <section>
+                    <h2 class="text-lg font-bold mb-2">5. Contact</h2>
+                    <p>Blocks & Loops Technologies Pvt Ltd</p>
+                    <p>Email: <a href="mailto:contact@tinko.in"
+                            class="text-tinko-blue hover:underline">contact@tinko.in</a></p>
+                </section>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="bg-gray-900 text-white py-12 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="grid md:grid-cols-4 gap-8 mb-12">
-                <div class="col-span-2">
-                    <div class="flex items-center gap-2 mb-4">
-                        <div
-                            class="w-6 h-6 bg-tinko-blue rounded flex items-center justify-center text-white font-bold text-sm">
-                            T</div>
-                        <span class="font-bold text-xl tracking-tight">Tinko.</span>
-                    </div>
-                    <p class="text-gray-400 max-w-xs text-sm">The invisible safety net for your digital business.</p>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center gap-2 mb-4 md:mb-0">
+                    <div class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold">
+                        T</div>
+                    <span class="font-bold text-xl">Tinko.</span>
                 </div>
-                <div>
-                    <h4 class="font-bold mb-4 text-sm uppercase tracking-wider text-gray-500">Legal</h4>
-                    <ul class="space-y-2 text-sm text-gray-300">
-                        <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
-                        <li><a href="terms.html" class="hover:text-white transition">Terms of Service</a></li>
-                    </ul>
+                <div class="text-gray-400 text-sm">
+                    &copy; 2025 Blocks & Loops Technologies Pvt Ltd. All rights reserved.
                 </div>
-            </div>
-            <div class="pt-8 border-t border-gray-800 text-gray-500 text-sm">
-                &copy; 2025 Blocks & Loops Technologies Pvt Ltd. All rights reserved.
             </div>
         </div>
     </footer>

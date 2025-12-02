@@ -10,16 +10,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#DE6B06', // Tinko Orange
-                        secondary: '#0b1220' // Tinko Dark
+                        tinko: {
+                            blue: '#0044CC',
+                            dark: '#002a80',
+                            light: '#E6F0FF',
+                            text: '#0F172A',
+                            gray: '#64748B'
+                        },
+                        primary: '#DE6B06',
+                        secondary: '#0b1220'
                     },
                     fontFamily: {
-                        'jakarta': ['"Plus Jakarta Sans"', 'sans-serif']
+                        'jakarta': ['"Plus Jakarta Sans"', 'sans-serif'],
+                        'sans': ['"Plus Jakarta Sans"', 'sans-serif']
                     }
                 }
             }
@@ -27,67 +36,97 @@
     </script>
 </head>
 
-<body class="font-jakarta bg-gray-50 text-gray-900">
+<body class="font-sans text-tinko-text antialiased bg-gray-50">
 
-    <div class="max-w-4xl mx-auto px-6 py-12 bg-white shadow-lg my-10 rounded-xl">
-        <h1 class="text-3xl font-bold mb-2">CONTACT US</h1>
-        <p class="text-sm text-gray-500 mb-8">We're here to help.</p>
-
-        <div class="space-y-8 text-sm leading-relaxed">
-
-            <section>
-                <h2 class="text-lg font-bold mb-2">Get in Touch</h2>
-                <p>If you have any questions about Tinko, need support, or want to discuss a partnership, please reach
-                    out to us using the details below.</p>
-            </section>
-
-            <section class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                <h3 class="font-bold text-lg mb-4 text-secondary">Blocks & Loops Technologies Pvt Ltd</h3>
-
-                <div class="space-y-4">
-                    <div class="flex items-start gap-3">
-                        <div class="font-semibold w-24">Address:</div>
-                        <div>
-                            No. 123, Tech Park Avenue,<br>
-                            HSR Layout, Sector 4,<br>
-                            Bengaluru, Karnataka - 560102<br>
-                            India
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-3">
-                        <div class="font-semibold w-24">Email:</div>
-                        <div><a href="mailto:contact@tinko.in" class="text-primary hover:underline">contact@tinko.in</a>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-3">
-                        <div class="font-semibold w-24">Phone:</div>
-                        <div>+91 98765 43210</div>
-                    </div>
-
-                    <div class="flex items-center gap-3">
-                        <div class="font-semibold w-24">Hours:</div>
-                        <div>Monday - Friday, 9:00 AM - 6:00 PM IST</div>
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex-shrink-0 flex items-center gap-2">
+                    <div
+                        class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                        T</div>
+                    <span class="font-bold text-2xl tracking-tight text-tinko-blue">Tinko.</span>
+                </a>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#how-it-works"
+                        class="text-sm font-medium text-gray-600 hover:text-tinko-blue transition">How it Works</a>
+                    <a href="index.html#pricing"
+                        class="text-sm font-medium text-gray-600 hover:text-tinko-blue transition">Pricing</a>
+                    <a href="index.html#roi-calculator"
+                        class="text-sm font-medium text-gray-600 hover:text-tinko-blue transition">Calculator</a>
+                    <!-- Auth Links -->
+                    <div class="flex items-center gap-4 border-l border-gray-200 pl-8">
+                        <a href="dashboard/login.html"
+                            class="text-sm font-medium text-gray-900 hover:text-tinko-blue transition">Login</a>
+                        <a href="dashboard/login.html?intent=signup"
+                            class="bg-tinko-blue text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-tinko-dark transition shadow-lg shadow-blue-500/30">Start
+                            Recovering</a>
                     </div>
                 </div>
-            </section>
-
-            <section>
-                <h2 class="text-lg font-bold mb-2">Support</h2>
-                <p>For existing customers, please log in to your dashboard and use the in-app chat for faster
-                    resolution.</p>
-                <p class="mt-2">Or email us at <a href="mailto:support@tinko.in"
-                        class="text-primary hover:underline">support@tinko.in</a></p>
-            </section>
-
+            </div>
         </div>
+    </nav>
 
-        <div class="mt-12 pt-8 border-t border-gray-200 text-center">
-            <a href="index.html" class="text-sm font-semibold text-gray-500 hover:text-gray-900">← Back to Home</a>
+    <!-- CONTENT -->
+    <section class="pt-32 pb-20">
+        <div class="max-w-4xl mx-auto px-6 py-12 bg-white shadow-lg rounded-xl">
+            <h1 class="text-3xl font-bold mb-2">CONTACT US</h1>
+            <p class="text-sm text-gray-500 mb-8">We're here to help.</p>
+
+            <div class="space-y-8 text-sm leading-relaxed">
+
+                <section>
+                    <h2 class="text-lg font-bold mb-2">Get in Touch</h2>
+                    <p>If you have any questions about Tinko, need support, or want to discuss a partnership, please
+                        reach out to us using the details below.</p>
+                </section>
+
+                <section class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h3 class="font-bold text-lg mb-4 text-tinko-text">Blocks & Loops Technologies Pvt Ltd</h3>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="font-semibold w-24">Address:</div>
+                            <div>
+                                306, Artha Grihasta, Alambadi<br>
+                                Malur, Kolar,<br>
+                                Karnataka - 563160<br>
+                                India
+                            </div>
+                        </div>
+
+                </section>
+
+                <section>
+                    <h2 class="text-lg font-bold mb-2">Support</h2>
+                    <p>For existing customers, please log in to your dashboard and use the in-app chat for faster
+                        resolution.</p>
+                    <p class="mt-2">Or email us at <a href="mailto:support@tinko.in"
+                            class="text-tinko-blue hover:underline">support@tinko.in</a></p>
+                </section>
+
+            </div>
         </div>
+    </section>
 
-    </div>
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center gap-2 mb-4 md:mb-0">
+                    <div class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold">
+                        T</div>
+                    <span class="font-bold text-xl">Tinko.</span>
+                </div>
+                <div class="text-gray-400 text-sm">
+                    &copy; 2025 Blocks & Loops Technologies Pvt Ltd. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
 
 </body>
 
