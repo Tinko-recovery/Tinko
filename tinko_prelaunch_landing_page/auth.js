@@ -3,15 +3,21 @@
 // --------------------------------
 const API_BASE = (() => {
   const hostname = window.location.hostname;
-  if (!hostname || hostname === 'localhost' || hostname === '127.0.0.1') {
+
+  // Local development
+  if (!hostname || hostname === "localhost" || hostname === "127.0.0.1") {
     return "http://127.0.0.1:8000";
   }
-  return 'https://tinko-2.onrender.com';
+
+  // Production (NO TRAILING SLASH)
+  return "https://tinko-2.onrender.com";
 })();
 
+// ENDPOINTS
 const PROFILE_URL = `${API_BASE}/v1/customer/profile`;
 
-console.log('Using API Base:', API_BASE);
+console.log("Using API Base:", API_BASE);
+
 
 // --------------------------------
 // DOM ELEMENTS
@@ -25,16 +31,17 @@ const verifyOtpBtn = document.getElementById("verifyOtpBtn");
 const resendOtp = document.getElementById("resendOtp");
 const loginMessage = document.getElementById("loginMessage");
 
-// Toggle Elements
+// Toggle UI Elements
 const tabLogin = document.getElementById("tabLogin");
 const tabSignup = document.getElementById("tabSignup");
 const authHeader = document.getElementById("authHeader");
 
 // State
-let currentIntent = "login"; // "login" or "signup"
+let currentIntent = "login";
+
 
 // --------------------------------
-// TOGGLE LOGIC
+// MODE (Login / Signup)
 // --------------------------------
 if (tabLogin && tabSignup) {
   tabLogin.addEventListener("click", () => setMode("login"));
@@ -43,10 +50,9 @@ if (tabLogin && tabSignup) {
 
 function setMode(mode) {
   currentIntent = mode;
-  setMessage(""); // Clear errors
+  setMessage("");
 
   if (mode === "login") {
-    // UI: Active Login
     tabLogin.classList.add("bg-tinko-blue", "text-white");
     tabLogin.classList.remove("text-slate-300");
 
@@ -56,7 +62,6 @@ function setMode(mode) {
     authHeader.textContent = "Welcome Back";
     sendOtpBtn.textContent = "Send Login OTP";
   } else {
-    // UI: Active Signup
     tabSignup.classList.add("bg-tinko-blue", "text-white");
     tabSignup.classList.remove("text-slate-300");
 
@@ -68,15 +73,16 @@ function setMode(mode) {
   }
 }
 
+
 // --------------------------------
-// MESSAGE HELPER
+// MESSAGE HANDLER
 // --------------------------------
 function setMessage(msg, isError = false) {
-  if (loginMessage) {
-    loginMessage.textContent = msg;
-    loginMessage.style.color = isError ? "#f87171" : "#34d399";
-  }
+  if (!loginMessage) return;
+  loginMessage.textContent = msg;
+  loginMessage.style.color = isError ? "#f87171" : "#34d399";
 }
+
 
 // --------------------------------
 // SEND OTP
@@ -98,7 +104,7 @@ if (sendOtpBtn) {
       });
 
       if (res.ok) {
-        setMessage(`OTP sent! Check your email to ${currentIntent}.`);
+        setMessage(`OTP sent! Please check your email.`);
         step1.classList.add("hidden");
         step2.classList.remove("hidden");
       } else {
@@ -107,13 +113,14 @@ if (sendOtpBtn) {
       }
     } catch (err) {
       console.error("SEND OTP ERROR:", err);
-      setMessage(`Backend unreachable (${API_BASE}). Check API.`, true);
+      setMessage(`Backend unreachable (${API_BASE}).`, true);
     } finally {
       sendOtpBtn.disabled = false;
       sendOtpBtn.textContent = originalText;
     }
   });
 }
+
 
 // --------------------------------
 // VERIFY OTP
@@ -138,23 +145,22 @@ if (verifyOtpBtn) {
       const data = await res.json();
       console.log("Verify OTP Response:", data);
 
-      const accessToken = data.access_token;
-
-      if (accessToken) {
+      if (data.access_token) {
         setMessage("Success! Redirecting...");
-        await handlePostLoginRedirect(accessToken);
+        await handlePostLoginRedirect(data.access_token);
       } else {
         setMessage("Invalid OTP.", true);
       }
     } catch (err) {
       console.error("VERIFY OTP ERROR:", err);
-      setMessage(`Backend unreachable (${API_BASE}). Check API.`, true);
+      setMessage(`Backend unreachable (${API_BASE}).`, true);
     } finally {
       verifyOtpBtn.disabled = false;
       verifyOtpBtn.textContent = "Verify OTP";
     }
   });
 }
+
 
 // --------------------------------
 // RESEND OTP
@@ -165,8 +171,9 @@ if (resendOtp) {
   });
 }
 
+
 // --------------------------------
-// REDIRECT AFTER LOGIN
+// POST LOGIN REDIRECT
 // --------------------------------
 async function handlePostLoginRedirect(token) {
   try {
@@ -181,13 +188,10 @@ async function handlePostLoginRedirect(token) {
     });
 
     if (res.ok) {
-      // Profile exists -> Dashboard
-      window.location.href = "dashboard/index.html";
+      window.location.href = "dashboard/index.html";   // Existing user
     } else if (res.status === 404) {
-      // Profile missing -> Onboarding
-      window.location.href = "dashboard/onboarding.html";
+      window.location.href = "dashboard/onboarding.html"; // New user
     } else {
-      // Fallback
       window.location.href = "dashboard/index.html";
     }
   } catch (err) {
