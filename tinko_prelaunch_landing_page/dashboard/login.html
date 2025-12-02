@@ -127,148 +127,146 @@
     </div>
 
     <script>
-        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000' : 'https://api.tinko.in';
+        // ---------------------------
+        // FIXED API BASE (THE REAL FIX)
+        // ---------------------------
+        const API_BASE =
+            window.location.hostname === "localhost" ||
+            window.location.hostname === "127.0.0.1"
+                ? "http://localhost:8000"
+                : "https://tinko-2.onrender.com";
 
         let currentEmail = "";
         let currentMode = "login"; // 'login' or 'signup'
 
         function toggleMode(mode) {
             currentMode = mode;
-            const title = document.querySelector('h1');
-            const subtitle = document.querySelector('p.text-slate-400');
-            const btn = document.getElementById('sendBtn');
-            const loginFooter = document.getElementById('loginFooter');
-            const signupFooter = document.getElementById('signupFooter');
+            const title = document.querySelector("h1");
+            const subtitle = document.querySelector("p.text-slate-400");
+            const btn = document.getElementById("sendBtn");
+            const loginFooter = document.getElementById("loginFooter");
+            const signupFooter = document.getElementById("signupFooter");
 
-            if (mode === 'signup') {
+            if (mode === "signup") {
                 title.innerText = "Create your account";
                 subtitle.innerText = "Enter your email to get started";
-                btn.innerHTML = 'Create Account <i class="ph-bold ph-arrow-right"></i>';
-                loginFooter.classList.add('hidden');
-                signupFooter.classList.remove('hidden');
+                btn.innerHTML =
+                    'Create Account <i class="ph-bold ph-arrow-right"></i>';
+                loginFooter.classList.add("hidden");
+                signupFooter.classList.remove("hidden");
             } else {
                 title.innerText = "Welcome back";
                 subtitle.innerText = "Enter your email to access your dashboard";
-                btn.innerHTML = 'Send Login Link <i class="ph-bold ph-arrow-right"></i>';
-                loginFooter.classList.remove('hidden');
-                signupFooter.classList.add('hidden');
+                btn.innerHTML =
+                    'Send Login Link <i class="ph-bold ph-arrow-right"></i>';
+                loginFooter.classList.remove("hidden");
+                signupFooter.classList.add("hidden");
             }
         }
 
         async function handleLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('email').value;
-            const btn = document.getElementById('sendBtn');
+            const email = document.getElementById("email").value;
+            const btn = document.getElementById("sendBtn");
 
             btn.disabled = true;
-            btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Sending...';
+            btn.innerHTML =
+                '<i class="ph-bold ph-spinner animate-spin"></i> Sending...';
 
             try {
-                // Use currentMode as intent
-                let response = await fetch(`${API_BASE}/v1/auth/email/send-otp`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: email, intent: currentMode })
-                });
-
-                if (response.status === 404 && currentMode === 'login') {
-                    // User not found in login mode, suggest signup
-                    if (confirm("Account not found. Would you like to create a new account?")) {
-                        toggleMode('signup'); // Switch UI to signup
-                        response = await fetch(`${API_BASE}/v1/auth/email/send-otp`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ email: email, intent: 'signup' })
-                        });
-                    } else {
-                        throw new Error("Login cancelled by user.");
+                let response = await fetch(
+                    `${API_BASE}/v1/auth/email/send-otp`,
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            email: email,
+                            intent: currentMode,
+                        }),
                     }
-                } else if (response.status === 409 && currentMode === 'signup') {
-                    // User exists in signup mode, suggest login
-                    if (confirm("Account already exists. Would you like to login instead?")) {
-                        toggleMode('login'); // Switch UI to login
-                        response = await fetch(`${API_BASE}/v1/auth/email/send-otp`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ email: email, intent: 'login' })
-                        });
-                    } else {
-                        throw new Error("Signup cancelled by user.");
-                    }
-                }
+                );
 
                 if (response.ok) {
                     currentEmail = email;
-                    document.getElementById('displayEmail').innerText = email;
-                    document.getElementById('step-email').classList.add('hidden');
-                    document.getElementById('step-otp').classList.remove('hidden');
+                    document.getElementById("displayEmail").innerText = email;
+                    document
+                        .getElementById("step-email")
+                        .classList.add("hidden");
+                    document
+                        .getElementById("step-otp")
+                        .classList.remove("hidden");
                 } else {
                     const data = await response.json();
-                    alert(data.detail || "Failed to send OTP. Please try again.");
+                    alert(data.detail || "Failed to send OTP.");
                 }
-            } catch (error) {
-                console.error("Auth error:", error);
-                if (error.message !== "Login cancelled by user." && error.message !== "Signup cancelled by user.") {
-                    alert(error.message || "Network error. Please check your connection.");
-                }
+            } catch (err) {
+                console.error("Auth error:", err);
+                alert("Network error. Check your connection.");
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = currentMode === 'signup' ? 'Create Account <i class="ph-bold ph-arrow-right"></i>' : 'Send Login Link <i class="ph-bold ph-arrow-right"></i>';
+                btn.innerHTML =
+                    currentMode === "signup"
+                        ? 'Create Account <i class="ph-bold ph-arrow-right"></i>'
+                        : 'Send Login Link <i class="ph-bold ph-arrow-right"></i>';
             }
         }
 
         async function handleVerify(e) {
             e.preventDefault();
-            const otp = document.getElementById('otp').value;
-            const btn = document.getElementById('verifyBtn');
+            const otp = document.getElementById("otp").value;
+            const btn = document.getElementById("verifyBtn");
 
             btn.disabled = true;
-            btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Verifying...';
+            btn.innerHTML =
+                '<i class="ph-bold ph-spinner animate-spin"></i> Verifying...';
 
             try {
-                const response = await fetch(`${API_BASE}/v1/auth/email/verify-otp`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: currentEmail, otp: otp })
-                });
+                const response = await fetch(
+                    `${API_BASE}/v1/auth/email/verify-otp`,
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            email: currentEmail,
+                            otp: otp,
+                        }),
+                    }
+                );
 
                 if (response.ok) {
                     const data = await response.json();
-                    localStorage.setItem('tinko_access_token', data.access_token);
+                    localStorage.setItem(
+                        "tinko_access_token",
+                        data.access_token
+                    );
 
-                    if (data.new_user) {
-                        window.location.href = "onboarding.html";
-                    } else {
-                        window.location.href = "dashboard-preview.html";
-                    }
+                    window.location.href = data.new_user
+                        ? "onboarding.html"
+                        : "dashboard-preview.html";
                 } else {
                     const data = await response.json();
-                    alert(data.detail || "Invalid OTP. Please try again.");
+                    alert(data.detail || "Invalid OTP.");
                 }
             } catch (error) {
                 console.error("Verify error:", error);
-                alert("Network error. Please check your connection.");
+                alert("Network error.");
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = 'Verify & Login <i class="ph-bold ph-check"></i>';
+                btn.innerHTML =
+                    'Verify & Login <i class="ph-bold ph-check"></i>';
             }
         }
 
         function resetForm() {
-            document.getElementById('step-otp').classList.add('hidden');
-            document.getElementById('step-email').classList.remove('hidden');
-            document.getElementById('otp').value = '';
+            document.getElementById("step-otp").classList.add("hidden");
+            document.getElementById("step-email").classList.remove("hidden");
+            document.getElementById("otp").value = "";
         }
 
-        // Check for intent in URL on load
-        window.addEventListener('DOMContentLoaded', (event) => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const intent = urlParams.get('intent');
-            if (intent === 'signup') {
-                toggleMode('signup');
-            }
+        window.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get("intent") === "signup") toggleMode("signup");
         });
     </script>
 </body>
-
 </html>
