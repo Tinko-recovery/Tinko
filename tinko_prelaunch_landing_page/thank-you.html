@@ -39,91 +39,59 @@
   <!-- NAVIGATION -->
   <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-20">
-        <!-- Logo -->
-        <a href="index.html" class="flex-shrink-0 flex items-center gap-2">
-          <div class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold text-xl">
-            T</div>
-          <span class="font-bold text-2xl tracking-tight text-tinko-blue">Tinko.</span>
-        </a>
-        <!-- Desktop Menu -->
-        <div class="hidden md:flex items-center space-x-8">
-          <a href="index.html#how-it-works"
-            class="text-sm font-medium text-gray-600 hover:text-tinko-blue transition">How it Works</a>
-          <a href="index.html#pricing"
-            class="text-sm font-medium text-gray-600 hover:text-tinko-blue transition">Pricing</a>
-          <a href="index.html#roi-calculator"
-            class="text-sm font-medium text-gray-600 hover:text-tinko-blue transition">Calculator</a>
-          <!-- Auth Links -->
-          <div class="flex items-center gap-4 border-l border-gray-200 pl-8">
-            <a href="dashboard/login.html"
-              class="text-sm font-medium text-gray-900 hover:text-tinko-blue transition">Login</a>
-            <a href="dashboard/login.html?intent=signup"
-              class="bg-tinko-blue text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-tinko-dark transition shadow-lg shadow-blue-500/30">Start
-              Recovering</a>
+
+      <!-- Success Icon -->
+      <div class="w-20 h-20 bg-green-100 rounded-full mx-auto mb-6 flex items-center justify-center animate-bounce">
+        <i class="ph-fill ph-check-circle text-4xl text-green-600"></i>
+      </div>
+
+      <!-- Thank You Message -->
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">
+        Welcome to <span class="text-tinko-blue">Tinko</span>!
+      </h1>
+
+      <p class="text-gray-600 mb-8 leading-relaxed">
+        🎉 You're now on our exclusive waitlist! You'll be the first to know when we launch and get early access to
+        recover lost sales instantly.
+      </p>
+
+      <div class="bg-blue-50 rounded-xl p-6 mb-8 text-left">
+        <h3 class="font-bold text-tinko-blue mb-3 flex items-center gap-2"><i class="ph-bold ph-star"></i> What's
+          Next?</h3>
+        <ul class="text-sm text-gray-700 space-y-2">
+          <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-green-500"></i> Check your email
+            for confirmation</li>
+          <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-green-500"></i> Get notified when
+            we launch</li>
+          <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-green-500"></i> Receive exclusive
+            early bird pricing</li>
+        </ul>
+      </div>
+
+      <a href="index.html"
+        class="inline-flex items-center justify-center w-full px-6 py-4 bg-tinko-blue text-white font-bold rounded-xl hover:bg-tinko-dark transition shadow-lg shadow-blue-500/30">
+        <i class="ph-bold ph-arrow-left mr-2"></i> Back to Home
+      </a>
+
+    </div>
+    </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="flex items-center gap-2 mb-4 md:mb-0">
+            <div class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold">
+              T</div>
+            <span class="font-bold text-xl">Tinko.</span>
+          </div>
+          <div class="text-gray-400 text-sm">
+            &copy; 2025 Blocks & Loops Technologies Pvt Ltd. All rights reserved.
           </div>
         </div>
       </div>
-    </div>
-  </nav>
-
-  <!-- CONTENT -->
-  <section class="pt-32 pb-20 min-h-screen flex items-center justify-center">
-    <div class="max-w-md w-full px-4 text-center">
-      <div class="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
-
-        <!-- Success Icon -->
-        <div class="w-20 h-20 bg-green-100 rounded-full mx-auto mb-6 flex items-center justify-center animate-bounce">
-          <i class="ph-fill ph-check-circle text-4xl text-green-600"></i>
-        </div>
-
-        <!-- Thank You Message -->
-        <h1 class="text-3xl font-bold text-gray-900 mb-4">
-          Welcome to <span class="text-tinko-blue">Tinko</span>!
-        </h1>
-
-        <p class="text-gray-600 mb-8 leading-relaxed">
-          🎉 You're now on our exclusive waitlist! You'll be the first to know when we launch and get early access to
-          recover lost sales instantly.
-        </p>
-
-        <div class="bg-blue-50 rounded-xl p-6 mb-8 text-left">
-          <h3 class="font-bold text-tinko-blue mb-3 flex items-center gap-2"><i class="ph-bold ph-star"></i> What's
-            Next?</h3>
-          <ul class="text-sm text-gray-700 space-y-2">
-            <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-green-500"></i> Check your email
-              for confirmation</li>
-            <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-green-500"></i> Get notified when
-              we launch</li>
-            <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-green-500"></i> Receive exclusive
-              early bird pricing</li>
-          </ul>
-        </div>
-
-        <a href="index.html"
-          class="inline-flex items-center justify-center w-full px-6 py-4 bg-tinko-blue text-white font-bold rounded-xl hover:bg-tinko-dark transition shadow-lg shadow-blue-500/30">
-          <i class="ph-bold ph-arrow-left mr-2"></i> Back to Home
-        </a>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="bg-gray-900 text-white py-12 border-t border-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row justify-between items-center">
-        <div class="flex items-center gap-2 mb-4 md:mb-0">
-          <div class="w-8 h-8 bg-tinko-blue rounded-lg flex items-center justify-center text-white font-bold">
-            T</div>
-          <span class="font-bold text-xl">Tinko.</span>
-        </div>
-        <div class="text-gray-400 text-sm">
-          &copy; 2025 Blocks & Loops Technologies Pvt Ltd. All rights reserved.
-        </div>
-      </div>
-    </div>
-  </footer>
+    </footer>
 
 </body>
 

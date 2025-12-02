@@ -1,184 +1,165 @@
-<!DOCTYPE html>
-<html lang="en">
+<h2 class="text-xl font-bold mb-4">Payment Gateway Configuration</h2>
+<p class="text-slate-400 mb-6 text-sm">Update your API keys or switch gateways.</p>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Settings — Tinko</title>
-    <!-- HEADER -->
-    <header class="max-w-4xl mx-auto mb-8 flex items-center justify-between">
-        <div class="flex items-center gap-4">
-            <a href="index.html" class="text-slate-400 hover:text-white transition"><i class="fas fa-arrow-left"></i>
-                Back</a>
-            <h1 class="text-2xl font-bold">Settings</h1>
-        </div>
-    </header>
+<div class="mb-6">
+    <label class="block text-xs uppercase text-slate-500 font-bold mb-3">Active Gateways</label>
+    <div class="flex flex-wrap gap-2" id="gatewayContainer">
+        <!-- JS Generated -->
+    </div>
+</div>
 
-    <main class="max-w-4xl mx-auto space-y-8">
+<div id="gatewayConfigContainer" class="space-y-6">
+    <!-- Dynamic Configs -->
+</div>
 
-        <!-- GATEWAY CONFIG -->
-        <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-6 md:p-8">
-            <h2 class="text-xl font-bold mb-4">Payment Gateway Configuration</h2>
-            <p class="text-slate-400 mb-6 text-sm">Update your API keys or switch gateways.</p>
+<!-- RECOVERY CHANNELS -->
+<div class="mt-8 pt-8 border-t border-slate-700">
+    <h3 class="font-bold text-white mb-4">Recovery Channels</h3>
+    <p class="text-slate-400 text-sm mb-4">Select how Tinko should contact customers for recovery.</p>
 
-            <div class="mb-6">
-                <label class="block text-xs uppercase text-slate-500 font-bold mb-3">Active Gateways</label>
-                <div class="flex flex-wrap gap-2" id="gatewayContainer">
-                    <!-- JS Generated -->
+    <div class="space-y-3">
+        <label
+            class="flex items-center justify-between p-3 bg-slate-900/50 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-600 transition">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-envelope text-blue-400"></i>
+                <div>
+                    <span class="font-semibold block">Email</span>
+                    <span class="text-xs text-slate-500">Send recovery links via email</span>
                 </div>
             </div>
+            <input type="checkbox" id="channelEmail" class="w-5 h-5 accent-tinko-orange" checked>
+        </label>
 
-            <div id="gatewayConfigContainer" class="space-y-6">
-                <!-- Dynamic Configs -->
-            </div>
-
-            <!-- RECOVERY CHANNELS -->
-            <div class="mt-8 pt-8 border-t border-slate-700">
-                <h3 class="font-bold text-white mb-4">Recovery Channels</h3>
-                <p class="text-slate-400 text-sm mb-4">Select how Tinko should contact customers for recovery.</p>
-
-                <div class="space-y-3">
-                    <label
-                        class="flex items-center justify-between p-3 bg-slate-900/50 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-600 transition">
-                        <div class="flex items-center gap-3">
-                            <i class="fas fa-envelope text-blue-400"></i>
-                            <div>
-                                <span class="font-semibold block">Email</span>
-                                <span class="text-xs text-slate-500">Send recovery links via email</span>
-                            </div>
-                        </div>
-                        <input type="checkbox" id="channelEmail" class="w-5 h-5 accent-tinko-orange" checked>
-                    </label>
-
-                    <label
-                        class="flex items-center justify-between p-3 bg-slate-900/50 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-600 transition">
-                        <div class="flex items-center gap-3">
-                            <i class="fas fa-comment-sms text-green-400"></i>
-                            <div>
-                                <span class="font-semibold block">SMS</span>
-                                <span class="text-xs text-slate-500">Send recovery links via SMS</span>
-                            </div>
-                        </div>
-                        <input type="checkbox" id="channelSMS" class="w-5 h-5 accent-tinko-orange">
-                    </label>
-
-                    <label
-                        class="flex items-center justify-between p-3 bg-slate-900/50 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-600 transition">
-                        <div class="flex items-center gap-3">
-                            <i class="fab fa-whatsapp text-emerald-500"></i>
-                            <div>
-                                <span class="font-semibold block">WhatsApp</span>
-                                <span class="text-xs text-slate-500">Send recovery links via WhatsApp (Premium)</span>
-                            </div>
-                        </div>
-                        <input type="checkbox" id="channelWhatsApp" class="w-5 h-5 accent-tinko-orange">
-                    </label>
+        <label
+            class="flex items-center justify-between p-3 bg-slate-900/50 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-600 transition">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-comment-sms text-green-400"></i>
+                <div>
+                    <span class="font-semibold block">SMS</span>
+                    <span class="text-xs text-slate-500">Send recovery links via SMS</span>
                 </div>
             </div>
+            <input type="checkbox" id="channelSMS" class="w-5 h-5 accent-tinko-orange">
+        </label>
 
-            <div class="mt-8 flex justify-end">
-                <button id="saveBtn" onclick="saveSettings()"
-                    class="bg-tinko-orange hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition shadow-lg">
-                    Save Changes
-                </button>
+        <label
+            class="flex items-center justify-between p-3 bg-slate-900/50 rounded-lg border border-slate-700 cursor-pointer hover:border-slate-600 transition">
+            <div class="flex items-center gap-3">
+                <i class="fab fa-whatsapp text-emerald-500"></i>
+                <div>
+                    <span class="font-semibold block">WhatsApp</span>
+                    <span class="text-xs text-slate-500">Send recovery links via WhatsApp (Premium)</span>
+                </div>
             </div>
-        </section>
+            <input type="checkbox" id="channelWhatsApp" class="w-5 h-5 accent-tinko-orange">
+        </label>
+    </div>
+</div>
 
-        <!-- DANGER ZONE -->
-        <section class="bg-red-900/10 border border-red-900/30 rounded-xl p-6 md:p-8">
-            <h2 class="text-xl font-bold text-red-500 mb-2">Danger Zone</h2>
-            <p class="text-slate-400 mb-6 text-sm">Permanently delete your account and all data.</p>
+<div class="mt-8 flex justify-end">
+    <button id="saveBtn" onclick="saveSettings()"
+        class="bg-tinko-orange hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition shadow-lg">
+        Save Changes
+    </button>
+</div>
+</section>
 
-            <button onclick="confirmDelete()"
-                class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white font-bold py-2 px-6 rounded-lg transition">
-                Delete Account
-            </button>
-        </section>
+<!-- DANGER ZONE -->
+<section class="bg-red-900/10 border border-red-900/30 rounded-xl p-6 md:p-8">
+    <h2 class="text-xl font-bold text-red-500 mb-2">Danger Zone</h2>
+    <p class="text-slate-400 mb-6 text-sm">Permanently delete your account and all data.</p>
 
-    </main>
+    <button onclick="confirmDelete()"
+        class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white font-bold py-2 px-6 rounded-lg transition">
+        Delete Account
+    </button>
+</section>
 
-    <script>
-        const API_BASE = (() => {
-            const h = window.location.hostname;
-            if (!h || h === 'localhost' || h === '127.0.0.1') return "http://127.0.0.1:8000";
-            return 'https://tinko-clean-backend.onrender.com';
-        })();
+</main>
 
-        const GATEWAYS = ["Razorpay", "Stripe", "Cashfree", "PayU", "PhonePe", "Paytm", "CCAvenue", "Juspay", "Custom Gateway (Not listed here?)"];
-        const selectedGateways = new Set();
+<script>
+    const API_BASE = (() => {
+        const h = window.location.hostname;
+        if (!h || h === 'localhost' || h === '127.0.0.1') return "http://127.0.0.1:8000";
+        return 'https://tinko-clean-backend.onrender.com';
+    })();
 
-        // Load current settings
-        async function loadSettings() {
-            const token = localStorage.getItem("tinko_access_token");
-            if (!token) return window.location.href = "../index.html";
+    const GATEWAYS = ["Razorpay", "Stripe", "Cashfree", "PayU", "PhonePe", "Paytm", "CCAvenue", "Juspay", "Custom Gateway (Not listed here?)"];
+    const selectedGateways = new Set();
 
-            try {
-                const res = await fetch(`${API_BASE}/v1/customer/profile`, {
-                    headers: { "Authorization": "Bearer " + token }
-                });
-                if (res.ok) {
-                    const profile = await res.json();
+    // Load current settings
+    async function loadSettings() {
+        const token = localStorage.getItem("tinko_access_token");
+        if (!token) return window.location.href = "../index.html";
 
-                    // Pre-select channels
-                    if (profile.recovery_channels) {
-                        document.getElementById("channelEmail").checked = profile.recovery_channels.includes("email");
-                        document.getElementById("channelSMS").checked = profile.recovery_channels.includes("sms");
-                        document.getElementById("channelWhatsApp").checked = profile.recovery_channels.includes("whatsapp");
-                    }
-
-                    // In a real app, we would parse profile.payment_gateways and pre-select them
-                    // For now, we start empty or default
-                    renderGateways();
-                }
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        function renderGateways() {
-            const container = document.getElementById("gatewayContainer");
-            container.innerHTML = "";
-            GATEWAYS.forEach(gw => {
-                const btn = document.createElement("button");
-                btn.className = "pill-btn " + (selectedGateways.has(gw) ? "active" : "");
-                btn.textContent = gw;
-                btn.onclick = () => {
-                    if (selectedGateways.has(gw)) {
-                        selectedGateways.delete(gw);
-                        btn.classList.remove("active");
-                    } else {
-                        selectedGateways.add(gw);
-                        btn.classList.add("active");
-                    }
-                    renderGatewayConfig();
-                };
-                container.appendChild(btn);
+        try {
+            const res = await fetch(`${API_BASE}/v1/customer/profile`, {
+                headers: { "Authorization": "Bearer " + token }
             });
-            renderGatewayConfig();
+            if (res.ok) {
+                const profile = await res.json();
+
+                // Pre-select channels
+                if (profile.recovery_channels) {
+                    document.getElementById("channelEmail").checked = profile.recovery_channels.includes("email");
+                    document.getElementById("channelSMS").checked = profile.recovery_channels.includes("sms");
+                    document.getElementById("channelWhatsApp").checked = profile.recovery_channels.includes("whatsapp");
+                }
+
+                // In a real app, we would parse profile.payment_gateways and pre-select them
+                // For now, we start empty or default
+                renderGateways();
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    function renderGateways() {
+        const container = document.getElementById("gatewayContainer");
+        container.innerHTML = "";
+        GATEWAYS.forEach(gw => {
+            const btn = document.createElement("button");
+            btn.className = "pill-btn " + (selectedGateways.has(gw) ? "active" : "");
+            btn.textContent = gw;
+            btn.onclick = () => {
+                if (selectedGateways.has(gw)) {
+                    selectedGateways.delete(gw);
+                    btn.classList.remove("active");
+                } else {
+                    selectedGateways.add(gw);
+                    btn.classList.add("active");
+                }
+                renderGatewayConfig();
+            };
+            container.appendChild(btn);
+        });
+        renderGatewayConfig();
+    }
+
+    function renderGatewayConfig() {
+        const container = document.getElementById("gatewayConfigContainer");
+        container.innerHTML = "";
+
+        if (selectedGateways.size === 0) {
+            container.innerHTML = '<p class="text-sm text-slate-500 italic">Select gateways above to configure.</p>';
+            return;
         }
 
-        function renderGatewayConfig() {
-            const container = document.getElementById("gatewayConfigContainer");
-            container.innerHTML = "";
+        selectedGateways.forEach(gw => {
+            const div = document.createElement("div");
+            div.className = "bg-slate-800/50 p-4 rounded-lg border border-slate-700";
 
-            if (selectedGateways.size === 0) {
-                container.innerHTML = '<p class="text-sm text-slate-500 italic">Select gateways above to configure.</p>';
-                return;
-            }
-
-            selectedGateways.forEach(gw => {
-                const div = document.createElement("div");
-                div.className = "bg-slate-800/50 p-4 rounded-lg border border-slate-700";
-
-                if (gw === "Custom Gateway (Not listed here?)") {
-                    div.innerHTML = `
+            if (gw === "Custom Gateway (Not listed here?)") {
+                div.innerHTML = `
             <h3 class="font-bold text-white mb-3 flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-gray-500"></div> Custom Gateway</h3>
             <div>
               <label class="block text-xs text-slate-400 mb-1">Gateway Name & Details</label>
               <textarea class="input-field text-sm" rows="3" placeholder="e.g. Worldline."></textarea>
             </div>
           `;
-                } else {
-                    div.innerHTML = `
+            } else {
+                div.innerHTML = `
             <h3 class="font-bold text-white mb-3 flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-green-500"></div> ${gw} Configuration</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -191,79 +172,79 @@
               </div>
             </div>
           `;
-                }
-                container.appendChild(div);
+            }
+            container.appendChild(div);
+        });
+    }
+
+    async function saveSettings() {
+        const btn = document.getElementById("saveBtn");
+        btn.textContent = "Saving...";
+        btn.disabled = true;
+
+        // Collect Recovery Channels
+        const channels = [];
+        if (document.getElementById("channelEmail").checked) channels.push("email");
+        if (document.getElementById("channelSMS").checked) channels.push("sms");
+        if (document.getElementById("channelWhatsApp").checked) channels.push("whatsapp");
+
+        const token = localStorage.getItem("tinko_access_token");
+
+        try {
+            // We are using the onboarding endpoint which accepts partial updates
+            const res = await fetch(`${API_BASE}/v1/customer/onboarding`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({
+                    // We only send what we want to update. 
+                    // Note: The backend schema might require other fields or be lenient.
+                    // Based on previous work, it updates the org.
+                    recovery_channels: channels
+                    // TODO: Also send gateway credentials here if we were implementing full gateway save
+                })
             });
-        }
 
-        async function saveSettings() {
-            const btn = document.getElementById("saveBtn");
-            btn.textContent = "Saving...";
-            btn.disabled = true;
-
-            // Collect Recovery Channels
-            const channels = [];
-            if (document.getElementById("channelEmail").checked) channels.push("email");
-            if (document.getElementById("channelSMS").checked) channels.push("sms");
-            if (document.getElementById("channelWhatsApp").checked) channels.push("whatsapp");
-
-            const token = localStorage.getItem("tinko_access_token");
-
-            try {
-                // We are using the onboarding endpoint which accepts partial updates
-                const res = await fetch(`${API_BASE}/v1/customer/onboarding`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": "Bearer " + token
-                    },
-                    body: JSON.stringify({
-                        // We only send what we want to update. 
-                        // Note: The backend schema might require other fields or be lenient.
-                        // Based on previous work, it updates the org.
-                        recovery_channels: channels
-                        // TODO: Also send gateway credentials here if we were implementing full gateway save
-                    })
-                });
-
-                if (res.ok) {
-                    alert("Settings saved successfully!");
-                } else {
-                    alert("Failed to save settings.");
-                }
-            } catch (e) {
-                console.error(e);
-                alert("Network error saving settings.");
+            if (res.ok) {
+                alert("Settings saved successfully!");
+            } else {
+                alert("Failed to save settings.");
             }
-
-            btn.textContent = "Save Changes";
-            btn.disabled = false;
+        } catch (e) {
+            console.error(e);
+            alert("Network error saving settings.");
         }
 
-        async function confirmDelete() {
-            if (!confirm("Are you sure you want to delete your account? This action cannot be undone.")) return;
+        btn.textContent = "Save Changes";
+        btn.disabled = false;
+    }
 
-            const token = localStorage.getItem("tinko_access_token");
-            try {
-                const res = await fetch(`${API_BASE}/v1/customer/profile`, {
-                    method: "DELETE",
-                    headers: { "Authorization": "Bearer " + token }
-                });
+    async function confirmDelete() {
+        if (!confirm("Are you sure you want to delete your account? This action cannot be undone.")) return;
 
-                if (res.ok) {
-                    alert("Account deleted.");
-                    localStorage.removeItem("tinko_access_token");
-                    window.location.href = "../index.html";
-                } else {
-                    alert("Failed to delete account.");
-                }
-            } catch (e) {
-                alert("Network error.");
+        const token = localStorage.getItem("tinko_access_token");
+        try {
+            const res = await fetch(`${API_BASE}/v1/customer/profile`, {
+                method: "DELETE",
+                headers: { "Authorization": "Bearer " + token }
+            });
+
+            if (res.ok) {
+                alert("Account deleted.");
+                localStorage.removeItem("tinko_access_token");
+                window.location.href = "../index.html";
+            } else {
+                alert("Failed to delete account.");
             }
+        } catch (e) {
+            alert("Network error.");
         }
+    }
 
-        document.addEventListener("DOMContentLoaded", loadSettings);
-    </script>
-    </body>
+    document.addEventListener("DOMContentLoaded", loadSettings);
+</script>
+</body>
 
 </html>

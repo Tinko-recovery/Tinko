@@ -3,17 +3,109 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Profile & Settings — Tinko</title>
-    <h2 class="text-xl font-bold text-red-500 mb-2 flex items-center gap-2"><i class="fas fa-exclamation-triangle"></i>
-        Danger Zone</h2>
-    <p class="text-slate-400 mb-6 text-sm">Permanently delete your account and all data. This action cannot be
-        undone.</p>
+    <title>Profile — Tinko</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "tinko-blue": "#0044CC",
+                        "tinko-dark": "#0F172A",
+                        "tinko-muted": "#64748B",
+                        "tinko-orange": "#DE6B06"
+                    },
+                    fontFamily: {
+                        jakarta: ['"Plus Jakarta Sans"', "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
 
-    <button onclick="confirmDelete()"
-        class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white font-bold py-2 px-6 rounded-lg transition">
-        Delete Account
-    </button>
-    </section>
+        .input-field {
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            width: 100%;
+            outline: none;
+        }
+
+        .input-field:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8">
+
+    <!-- HEADER -->
+    <header class="max-w-4xl mx-auto mb-8 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <a href="dashboard-preview.html" class="text-slate-400 hover:text-white transition flex items-center gap-2">
+                <i class="ph-bold ph-arrow-left"></i> Back
+            </a>
+            <h1 class="text-2xl font-bold">My Profile</h1>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto space-y-8">
+
+        <!-- PROFILE DETAILS -->
+        <section class="bg-slate-800/50 border border-slate-700 rounded-xl p-6 md:p-8">
+            <h2 class="text-xl font-bold mb-6">Personal Information</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Full Name</label>
+                    <input type="text" id="fullName" class="input-field" placeholder="John Doe" disabled>
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Email Address</label>
+                    <input type="email" id="email" class="input-field" placeholder="john@example.com" disabled>
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Mobile Number</label>
+                    <input type="tel" id="mobile" class="input-field" placeholder="+91 98765 43210" disabled>
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Business Name</label>
+                    <input type="text" id="businessName" class="input-field" placeholder="Acme Inc." disabled>
+                </div>
+            </div>
+
+            <div class="mt-6 p-4 bg-blue-900/20 border border-blue-900/50 rounded-lg flex items-start gap-3">
+                <i class="ph-fill ph-info text-blue-400 mt-1"></i>
+                <p class="text-sm text-blue-200">To update your personal details, please contact support.</p>
+            </div>
+        </section>
+
+        <!-- DANGER ZONE -->
+        <section class="bg-red-900/10 border border-red-900/30 rounded-xl p-6 md:p-8">
+            <h2 class="text-xl font-bold text-red-500 mb-2 flex items-center gap-2">
+                <i class="ph-bold ph-warning"></i> Danger Zone
+            </h2>
+            <p class="text-slate-400 mb-6 text-sm">Permanently delete your account and all data. This action cannot be
+                undone.</p>
+
+            <button onclick="confirmDelete()"
+                class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white font-bold py-2 px-6 rounded-lg transition">
+                Delete Account
+            </button>
+        </section>
 
     </main>
 
@@ -24,14 +116,9 @@
             return 'https://tinko-clean-backend.onrender.com';
         })();
 
-        const GATEWAYS = ["Razorpay", "Stripe", "Cashfree", "PayU", "PhonePe", "Paytm", "CCAvenue", "Juspay", "Custom Gateway (Not listed here?)"];
-        const selectedGateways = new Set();
-        let currentProfile = {};
-
-        // Load current profile
         async function loadProfile() {
             const token = localStorage.getItem("tinko_access_token");
-            if (!token) return window.location.href = "../index.html";
+            if (!token) return window.location.href = "login.html";
 
             try {
                 const res = await fetch(`${API_BASE}/v1/customer/profile`, {
@@ -39,106 +126,15 @@
                 });
                 if (res.ok) {
                     const profile = await res.json();
-                    currentProfile = profile;
-                    renderProfileDetails(profile);
-
-                    // Pre-select gateways if available (mock logic for now as API might not return list yet)
-                    // In real implementation: profile.payment_gateways.forEach(gw => selectedGateways.add(gw));
-
-                    renderGateways();
+                    document.getElementById("fullName").value = profile.full_name || "";
+                    document.getElementById("email").value = profile.email || "";
+                    document.getElementById("mobile").value = profile.mobile || "";
+                    // Assuming business name might be in profile or we use full name as fallback
+                    document.getElementById("businessName").value = profile.full_name ? profile.full_name + "'s Business" : "";
                 }
             } catch (e) {
                 console.error(e);
             }
-        }
-
-        function renderProfileDetails(p) {
-            // Since the GET /profile endpoint currently returns a limited set (CustomerProfileResponse),
-            // we might need to update the backend to return full Organization details.
-            // For now, we'll display what we have and placeholders.
-
-            // Note: The current GET /profile returns: email, full_name, mobile, org_id, onboarding_complete
-            // It DOES NOT return the full organization details yet. 
-            // I will assume for this demo that we might need to fetch organization details separately 
-            // or update the backend. For now, I'll show the user's name as business name if org name is missing.
-
-            document.getElementById("dispBusinessName").textContent = p.full_name || "My Business";
-            // Other fields would be populated if the API returned them.
-        }
-
-        function renderGateways() {
-            const container = document.getElementById("gatewayContainer");
-            container.innerHTML = "";
-            GATEWAYS.forEach(gw => {
-                const btn = document.createElement("button");
-                btn.className = "pill-btn " + (selectedGateways.has(gw) ? "active" : "");
-                btn.textContent = gw;
-                btn.onclick = () => {
-                    if (selectedGateways.has(gw)) {
-                        selectedGateways.delete(gw);
-                        btn.classList.remove("active");
-                    } else {
-                        selectedGateways.add(gw);
-                        btn.classList.add("active");
-                    }
-                    renderGatewayConfig();
-                };
-                container.appendChild(btn);
-            });
-            renderGatewayConfig();
-        }
-
-        function renderGatewayConfig() {
-            const container = document.getElementById("gatewayConfigContainer");
-            container.innerHTML = "";
-
-            if (selectedGateways.size === 0) {
-                container.innerHTML = '<p class="text-sm text-slate-500 italic">Select gateways above to configure.</p>';
-                return;
-            }
-
-            selectedGateways.forEach(gw => {
-                const div = document.createElement("div");
-                div.className = "bg-slate-800/50 p-4 rounded-lg border border-slate-700";
-
-                if (gw === "Custom Gateway (Not listed here?)") {
-                    div.innerHTML = `
-            <h3 class="font-bold text-white mb-3 flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-gray-500"></div> Custom Gateway</h3>
-            <div>
-              <label class="block text-xs text-slate-400 mb-1">Gateway Name & Details</label>
-              <textarea class="input-field text-sm" rows="3" placeholder="e.g. Worldline."></textarea>
-            </div>
-          `;
-                } else {
-                    div.innerHTML = `
-            <h3 class="font-bold text-white mb-3 flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-green-500"></div> ${gw} Configuration</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Key ID / API Key</label>
-                <input type="password" class="input-field text-sm" placeholder="${gw} Key ID">
-              </div>
-              <div>
-                <label class="block text-xs text-slate-400 mb-1">Key Secret</label>
-                <input type="password" class="input-field text-sm" placeholder="${gw} Secret">
-              </div>
-            </div>
-          `;
-                }
-                container.appendChild(div);
-            });
-        }
-
-        async function saveSettings() {
-            const btn = document.getElementById("saveBtn");
-            btn.textContent = "Saving...";
-            btn.disabled = true;
-
-            // Simulate save
-            setTimeout(() => {
-                alert("Keys updated successfully!");
-                btn.textContent = "Update Keys";
-                btn.disabled = false;
-            }, 1000);
         }
 
         async function confirmDelete() {
@@ -165,6 +161,6 @@
 
         document.addEventListener("DOMContentLoaded", loadProfile);
     </script>
-    </body>
+</body>
 
 </html>
